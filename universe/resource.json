@@ -1,0 +1,46 @@
+{
+  "assets": {
+    "uris": {
+      "jre-tar-gz": "{{jre-url}}",
+      "libmesos-bundle-tar-gz": "{{libmesos-bundle-url}}",
+      "bootstrap-zip": "http://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/bootstrap.zip",
+      "scheduler-zip": "{{artifact-dir}}/nifi-scheduler.zip",
+      "executor-zip": "http://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/executor.zip",
+      "nifi-tar-gz" : "https://s3-us-west-1.amazonaws.com/nifi-binary/nifi-1.5.0-bin.tar.gz",
+      "nifi-toolkit" : "https://s3-ap-southeast-2.amazonaws.com/nifi-toolkit/nifi-toolkit-1.5.0-bin.tar.gz",
+      "nifi-janitor-jar" : "https://s3-ap-southeast-2.amazonaws.com/nifi-toolkit/dcos-nifi-janitor.jar",
+      "nifi-statsd-jar" : "https://s3-ap-southeast-2.amazonaws.com/nifi-toolkit/dcos-nifi-statsd.jar",
+      "nifi-python-tar-gz" : "https://s3-us-west-1.amazonaws.com/nifi-python/python-2.7.14.tar.gz"
+    }
+  },
+  "images": {
+    "icon-small": "https://s3-us-west-1.amazonaws.com/nifi-icons/nifi-icon-small.png",
+    "icon-medium": "https://s3-us-west-1.amazonaws.com/nifi-icons/nifi-icon-medium.png",
+    "icon-large": "https://s3-us-west-1.amazonaws.com/nifi-icons/nifi-icon-large.png"
+  },
+  "cli":{
+    "binaries":{
+      "darwin":{
+        "x86-64":{
+          "contentHash":[ { "algo":"sha256", "value":"{{sha256:dcos-service-cli-darwin@https://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/SHA256SUMS}}" } ],
+          "kind":"executable",
+          "url":"https://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/dcos-service-cli-darwin"
+        }
+      },
+      "linux":{
+        "x86-64":{
+          "contentHash":[ { "algo":"sha256", "value":"{{sha256:dcos-service-cli-linux@https://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/SHA256SUMS}}" } ],
+          "kind":"executable",
+          "url":"https://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/dcos-service-cli-linux"
+        }
+      },
+      "windows":{
+        "x86-64":{
+          "contentHash":[ { "algo":"sha256", "value":"{{sha256:dcos-service-cli.exe@https://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/SHA256SUMS}}" } ],
+          "kind":"executable",
+          "url":"https://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/dcos-service-cli.exe"
+        }
+      }
+    }
+  }
+}

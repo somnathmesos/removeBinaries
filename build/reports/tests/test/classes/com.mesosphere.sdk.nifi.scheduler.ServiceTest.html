@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class com.mesosphere.sdk.nifi.scheduler.ServiceTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class com.mesosphere.sdk.nifi.scheduler.ServiceTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.mesosphere.sdk.nifi.scheduler.html">com.mesosphere.sdk.nifi.scheduler</a> &gt; ServiceTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">5.952s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">testSpec</td>
+<td>5.952s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>INFO  2018-03-26 09:11:57,985 [Test worker] com.mesosphere.sdk.specification.yaml.RawServiceSpec$Builder:build(70): Rendered ServiceSpec from /fw-wrkspc/metricsfix/dcos-nifi/src/main/dist/svc.yml:
+Missing template values: []
+name: nifi
+scheduler:
+  principal: 
+  zookeeper: master.mesos:2181
+  user: nobody
+pods:
+  nifi:
+    count: 2
+    placement: '[[&quot;hostname&quot;, &quot;UNIQUE&quot;]]'
+    rlimits:
+      RLIMIT_NOFILE:
+        soft: 50000
+        hard: 50000
+      RLIMIT_NPROC:
+        soft: 10000
+        hard: 10000
+    resource-sets:
+      node-resources:
+        cpus: 1
+        memory: 4096
+        ports:
+          web:
+            port: 0
+            env-key: PORT_WEB
+            advertise: true
+            vip:
+              prefix: web
+              port: 8080
+          node:
+           port: 0
+           env-key: PORT_WEB
+           advertise: true
+        volumes:
+          database-repository:
+            path: database-repository
+            type: ROOT
+            size: 1000
+          flowfile-repository:
+            path: flowfile-repository
+            type: ROOT
+            size: 1000
+          provenance-repository:
+            path: provenance-repository
+            type: ROOT
+            size: 1000
+          content-repository:
+            path: content-repository
+            type: ROOT
+            size: 1000
+          misc-repository:
+            path: misc-repository
+            type: ROOT
+            size: 1000
+      sidecar-resources:
+        cpus: 0.5
+        memory: 512
+        volume:
+          path: nifi-backup
+          type: ROOT
+          size: 500
+      sidecar-cleanupresources:
+        cpus: 0.5
+        memory: 512
+    uris:
+      - https://test-url/jre.tgz
+      - http://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/bootstrap.zip
+      - https://s3-us-west-1.amazonaws.com/nifi-binary/nifi-1.5.0-bin.tar.gz
+      - http://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/executor.zip
+      - https://s3-ap-southeast-2.amazonaws.com/nifi-toolkit/nifi-toolkit-1.5.0-bin.tar.gz
+      - https://s3-ap-southeast-2.amazonaws.com/nifi-toolkit/dcos-nifi-janitor.jar
+      - https://s3-ap-southeast-2.amazonaws.com/nifi-toolkit/dcos-nifi-statsd.jar
+      - https://s3-us-west-1.amazonaws.com/nifi-python/python-2.7.14.tar.gz
+      - https://test-url/libmesos-bundle.tgz
+    tasks:
+      metrics:
+        goal: RUNNING
+        essential: false
+        cmd: |
+            ./bootstrap
+            export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jdk*/jre*/) &amp;&amp; export JAVA_HOME=${JAVA_HOME%/} &amp;&amp; export PATH=$(ls -d $JAVA_HOME/bin):$PATH
+            echo &quot;Before running statsd&quot;
+            java -jar dcos-nifi-statsd.jar ../../misc-repository/url-info.properties $STATSD_UDP_HOST $STATSD_UDP_PORT 20
+            echo &quot;After running statsd&quot;
+        cpus: 0.2
+        memory: 32
+      node:
+        resource-set: node-resources
+        goal: RUNNING
+        cmd: |
+            ./bootstrap 
+            export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jdk*/jre*/) &amp;&amp; export JAVA_HOME=${JAVA_HOME%/} &amp;&amp; export PATH=$(ls -d $JAVA_HOME/bin):$PATH
+            echo &quot;INSTALL&quot; &gt; misc-repository/readiness-info.txt 
+            ./nifi-${NIFI_VERSION}/bin/nifi.sh run
+        configs:
+          nifi.properties:
+            template: server.properties.mustache
+            dest: nifi-1.5.0/conf/nifi.properties
+        readiness-check:
+            cmd: |
+              # The Nifi node has started when it logs a specific 
+              # &quot;${TASK_NAME}.${FRAMEWORK_HOST}:$nifi_web_port is now connected&quot; log line. 
+              # An example is below:
+              # 2018/03/05 11:11:37 nifi-0-node.nifi.autoip.dcos.thisdcos.directory:1025 is now connected.
+              nifi_server_log_files=nifi-${NIFI_VERSION}/logs/nifi-app.log
+              nifi_host_name=${TASK_NAME}.${FRAMEWORK_HOST}
+              nifi_host_name_local=localhost
+              nifi_web_port=${PORT_WEB}
+              readiness_info=`cat misc-repository/readiness-info.txt`
+              echo &quot;Executing shell script.&quot;
+              echo &quot;$readiness_info&quot;
+              if [ &quot;$readiness_info&quot; == &quot;INSTALL&quot; ] ; then
+                echo &quot;Checking for successful log line in $nifi_server_log_files.&quot;
+                echo &quot;Looking for \&quot;$nifi_host_name:$nifi_web_port is now connected or NiFi has started.\&quot; in the server log file.&quot;
+                grep -q &quot;$nifi_host_name:$nifi_web_port is now connected\|NiFi has started.&quot; $nifi_server_log_files
+                if [ $? -eq 0 ] ; then
+                  echo &quot;Found started log line.&quot;
+                  echo &quot;READY&quot; &gt; misc-repository/readiness-info.txt
+                  echo &quot;HOST=$nifi_host_name_local&quot; &gt; misc-repository/url-info.properties
+                  echo &quot;PORT=$nifi_web_port&quot; &gt;&gt; misc-repository/url-info.properties
+                else
+                  echo &quot;started log line not found. Exiting.&quot;
+                  exit 1
+                fi
+                echo &quot;Required log line found. Nifi is ready.&quot;
+              elif [ $readiness_info == &quot;READY&quot; ] ; then
+                echo &quot;Nifi is ready.&quot;
+              elif [ $readiness_info == &quot;RUNNING&quot; ] ; then
+                echo &quot;Nifi is running.&quot;
+              fi
+              exit 0
+            interval: 5
+            delay: 10
+            timeout: 120
+        env:
+          NODE_CPUS: 1
+          NODE_MEM: 4096
+          NIFI_VERSION: 1.5.0
+      restart-cleanup:
+        goal: ONCE
+        cmd: |
+         # Clean Nifi Application i.e. remove all disconnected node.
+         misc_repo_path=../../misc-repository
+         echo &quot;Executing Janitor program to clean the Nifi disconnected node.&quot;
+         export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jdk*/jre*/) &amp;&amp; export JAVA_HOME=${JAVA_HOME%/} &amp;&amp; export PATH=$(ls -d $JAVA_HOME/bin):$PATH
+         java -jar dcos-nifi-janitor.jar $misc_repo_path/readiness-info.txt $misc_repo_path/url-info.properties
+        resource-set: sidecar-cleanupresources
+      backup:
+        goal: ONCE
+        cmd: &gt;
+                export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jdk*/jre*) ;
+                sh $MESOS_SANDBOX/nifi-toolkit-${NIFI_VERSION}/bin/file-manager.sh -o backup -b nifi-backup -c $MESOS_SANDBOX/../../tasks/nifi-$POD_INSTANCE_INDEX-node*/nifi-1.5.0 -v;
+        resource-set: sidecar-resources
+      upload-s3:
+        goal: ONCE
+        cmd: &gt;
+                export PATH=$MESOS_SANDBOX/python-dist/bin:$PATH ;
+                aws s3 cp nifi-backup s3://${S3_BUCKET_NAME}/nifi-${POD_INSTANCE_INDEX}/ --recursive
+        resource-set: sidecar-resources
+      cleanup-backup:
+        goal: ONCE
+        cmd: &gt;
+                export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jdk*/jre/) ;
+                rm -r nifi-backup/*
+        resource-set: sidecar-resources
+plans:
+  deploy:
+    strategy: serial
+    phases:
+      node:
+        strategy: serial
+        pod: nifi
+        steps:
+          - default: [[node],[metrics]]
+  replace:
+    strategy: serial
+    phases:
+      node:
+        strategy: serial
+        pod: nifi
+        steps:
+          - default: [[node],[metrics]]
+      cleanup:
+        strategy: serial
+        pod: nifi
+        steps:
+          - default: [[restart-cleanup]]
+  backup-s3:
+    strategy: serial
+    phases:
+      backup:
+        strategy: serial
+        pod: nifi
+        steps:
+          - default: [[backup]]
+      upload-backups:
+        strategy: serial
+        pod: nifi
+        steps:
+          - default: [[upload-s3]]
+      cleanup-backups:
+        strategy: serial
+        pod: nifi
+        steps:
+          - default: [[cleanup-backup]]
+
+INFO  2018-03-26 09:11:58,536 [Test worker] org.hibernate.validator.internal.util.Version:&lt;clinit&gt;(30): HV000001: Hibernate Validator 5.3.2.Final
+INFO  2018-03-26 09:12:00,359 [Test worker] com.mesosphere.sdk.offer.evaluate.placement.MarathonConstraintParser:parseRow(106): Marathon-style row '[hostname, UNIQUE]' resulted in placement rule: 'MaxPerHostnameRule{max=1, task-filter=RegexMatcher{pattern='nifi-.*'}}'
+INFO  2018-03-26 09:12:01,737 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:getDefaultScheduler(265): Unable to retrieve last configuration. Assuming that no prior deployment has completed
+INFO  2018-03-26 09:12:01,980 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:updateConfig(472): Updating config with 10 validators...
+INFO  2018-03-26 09:12:02,004 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:updateConfiguration(78): New prospective config:
+{
+  &quot;name&quot; : &quot;nifi&quot;,
+  &quot;role&quot; : &quot;nifi-role&quot;,
+  &quot;principal&quot; : &quot;nifi-principal&quot;,
+  &quot;web-url&quot; : null,
+  &quot;zookeeper&quot; : &quot;master.mesos:2181&quot;,
+  &quot;pod-specs&quot; : [ {
+    &quot;type&quot; : &quot;nifi&quot;,
+    &quot;user&quot; : &quot;nobody&quot;,
+    &quot;count&quot; : 2,
+    &quot;image&quot; : null,
+    &quot;networks&quot; : [ ],
+    &quot;rlimits&quot; : [ {
+      &quot;name&quot; : &quot;RLIMIT_NOFILE&quot;,
+      &quot;soft&quot; : 50000,
+      &quot;hard&quot; : 50000
+    }, {
+      &quot;name&quot; : &quot;RLIMIT_NPROC&quot;,
+      &quot;soft&quot; : 10000,
+      &quot;hard&quot; : 10000
+    } ],
+    &quot;uris&quot; : [ &quot;https://test-url/jre.tgz&quot;, &quot;http://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/bootstrap.zip&quot;, &quot;https://s3-us-west-1.amazonaws.com/nifi-binary/nifi-1.5.0-bin.tar.gz&quot;, &quot;http://downloads.mesosphere.com/dcos-commons/artifacts/0.40.2/executor.zip&quot;, &quot;https://s3-ap-southeast-2.amazonaws.com/nifi-toolkit/nifi-toolkit-1.5.0-bin.tar.gz&quot;, &quot;https://s3-ap-southeast-2.amazonaws.com/nifi-toolkit/dcos-nifi-janitor.jar&quot;, &quot;https://s3-ap-southeast-2.amazonaws.com/nifi-toolkit/dcos-nifi-statsd.jar&quot;, &quot;https://s3-us-west-1.amazonaws.com/nifi-python/python-2.7.14.tar.gz&quot;, &quot;https://test-url/libmesos-bundle.tgz&quot;, &quot;test-executor-uri&quot; ],
+    &quot;task-specs&quot; : [ {
+      &quot;name&quot; : &quot;metrics&quot;,
+      &quot;goal&quot; : &quot;RUNNING&quot;,
+      &quot;essential&quot; : false,
+      &quot;resource-set&quot; : {
+        &quot;id&quot; : &quot;metrics-resource-set&quot;,
+        &quot;resource-specifications&quot; : [ {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;cpus&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 0.2
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        }, {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;mem&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 32.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        } ],
+        &quot;volume-specifications&quot; : [ ],
+        &quot;role&quot; : &quot;nifi-role&quot;,
+        &quot;principal&quot; : &quot;nifi-principal&quot;
+      },
+      &quot;command-spec&quot; : {
+        &quot;value&quot; : &quot;./bootstrap\nexport JAVA_HOME=$(ls -d $MESOS_SANDBOX/jdk*/jre*/) &amp;&amp; export JAVA_HOME=${JAVA_HOME%/} &amp;&amp; export PATH=$(ls -d $JAVA_HOME/bin):$PATH\necho \&quot;Before running statsd\&quot;\njava -jar dcos-nifi-statsd.jar ../../misc-repository/url-info.properties $STATSD_UDP_HOST $STATSD_UDP_PORT 20\necho \&quot;After running statsd\&quot;\n&quot;,
+        &quot;environment&quot; : {
+          &quot;NIFI_CLUSTER_FIREWALL_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_CANDIDATES&quot; : &quot;3&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_WAIT_TIME&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CLUSTER_IS_NODE&quot; : &quot;true&quot;,
+          &quot;NIFI_CLUSTER_NODE_ADDRESS&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_NODE_CONNECTION_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_NODE_EVENT_HISTORY_SIZE&quot; : &quot;25&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_PORT&quot; : &quot;12000&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_THREADS&quot; : &quot;10&quot;,
+          &quot;NIFI_CLUSTER_NODE_READ_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_PROTOCOL_HEARTBEAT_INTERVAL&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_BUFFER_SIZE&quot; : &quot;1440&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.status.history.VolatileComponentStatusRepository&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_SNAPSHOT_FREQUENCY&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_APPENDABLE_SIZE&quot; : &quot;10 MB&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_FLOW_FILES&quot; : &quot;100&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_RETENTION_PERIOD&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_USAGE_PERCENTAGE&quot; : &quot;50%&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;content-repository&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.FileSystemRepository&quot;,
+          &quot;NIFI_CONTENT_VIEWER_URL&quot; : &quot;/nifi-content-viewer/&quot;,
+          &quot;NIFI_CORE_ADMINISTRATIVE_YIELD_DURATION&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_AUTHORIZER_CONFIGURATION_FILE&quot; : &quot;./conf/authorizers.xml&quot;,
+          &quot;NIFI_CORE_BORED_YIELD_DURATION&quot; : &quot;10 millis&quot;,
+          &quot;NIFI_CORE_DOCUMENTATION_WORKING_DIRECTORY&quot; : &quot;./work/docs/components&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_AUTORESUMESTATE&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_GRACEFUL_SHUTDOWN_PERIOD&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_CORE_FLOWSERVICE_WRITEDELAY_INTERVAL&quot; : &quot;500 ms&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_DIR&quot; : &quot;./conf/archive&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_COUNT&quot; : &quot;&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_STORAGE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_TIME&quot; : &quot;30 days&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_FILE&quot; : &quot;conf/flow.xml.gz&quot;,
+          &quot;NIFI_CORE_LOGIN_IDENTITY_PROVIDER_CONFIGURATION_FILE&quot; : &quot;./conf/login-identity-providers.xml&quot;,
+          &quot;NIFI_CORE_NAR_LIBRARY_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_CORE_NAR_WORKING_DIRECTORY&quot; : &quot;./work/nar&quot;,
+          &quot;NIFI_CORE_PROCESSOR_SCHEDULING_TIMEOUT&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CORE_TEMPLATES_DIRECTORY&quot; : &quot;./conf/templates&quot;,
+          &quot;NIFI_CORE_UI_AUTOREFRESH_INTERVAL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_UI_BANNER_TEXT&quot; : &quot;&quot;,
+          &quot;NIFI_DATABASE_DIRECTORY&quot; : &quot;database-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_CHECKPOINT_INTERVAL&quot; : &quot;2 mins&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_DIRECTORY&quot; : &quot;flowfile-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.WriteAheadFlowFileRepository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_PARTITIONS&quot; : &quot;256&quot;,
+          &quot;NIFI_H2_URL_APPEND&quot; : &quot;;LOCK_TIMEOUT&amp;#61;25000;WRITE_DELAY&amp;#61;0;AUTO_SERVER&amp;#61;FALSE&quot;,
+          &quot;NIFI_KERBEROS_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_DEFAULT_REALM&quot; : &quot;NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_KRB5_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_PRINCIPAL&quot; : &quot;nifi/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_PRINCIPAL&quot; : &quot;HTTP/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_STRATEGY&quot; : &quot;START_TLS&quot;,
+          &quot;NIFI_LDAP_CONNECT_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_IDENTITY_STRATEGY&quot; : &quot;USE_DN&quot;,
+          &quot;NIFI_LDAP_MANAGER_DN&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_MANAGER_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_READ_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_REFERRAL_STRATEGY&quot; : &quot;FOLLOW&quot;,
+          &quot;NIFI_LDAP_TLS_CLIENT_AUTH&quot; : &quot;REQUIRED&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_TLS_PROTOCOL&quot; : &quot;TLSv1.2&quot;,
+          &quot;NIFI_LDAP_TLS_SHUTDOWN_GRACEFULLY&quot; : &quot;false&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_URL&quot; : &quot;ldap://ldap.example.com:389&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_BASE&quot; : &quot;CN&amp;#61;Users,DC&amp;#61;example,DC&amp;#61;com&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_FILTER&quot; : &quot;sAMAccountName&amp;#61;{0}&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_BUFFER_SIZE&quot; : &quot;100000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_COMPRESS_ON_ROLLOVER&quot; : &quot;true&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_CONCURRENT_MERGE_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DEBUG_FREQUENCY&quot; : &quot;1_000_000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;provenance-repository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_ID&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_IMPLEMENTATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.provenance.PersistentProvenanceRepository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_ATTRIBUTES&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_FIELDS&quot; : &quot;EventType, FlowFileUUID, Filename, ProcessorID, Relationship&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_SHARD_SIZE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_JOURNAL_COUNT&quot; : &quot;16&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_ATTRIBUTE_LENGTH&quot; : &quot;65536&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_SIZE&quot; : &quot;1 GB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_TIME&quot; : &quot;24 hours&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_QUERY_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_TIME&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_WARM_CACHE_FREQUENCY&quot; : &quot;&quot;,
+          &quot;NIFI_QUEUE_SWAP_THRESHOLD&quot; : &quot;20000&quot;,
+          &quot;NIFI_REMOTE_INPUT_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_TRANSACTION_TTL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_REMOTE_INPUT_SECURE&quot; : &quot;false&quot;,
+          &quot;NIFI_REMOTE_INPUT_SOCKET_PORT&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_DN&quot; : &quot;^CN&amp;#61;(.*?), OU&amp;#61;(.*?), O&amp;#61;(.*?), L&amp;#61;(.*?), ST&amp;#61;(.*?), C&amp;#61;(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_KERB&quot; : &quot;^(.*?)/instance@(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_DN&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_KERB&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_KEYPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_NEEDCLIENTAUTH&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_CERTIFICATE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_URL&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_USER_AUTHORIZER&quot; : &quot;file-provider&quot;,
+          &quot;NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ADDITIONAL_KEYS&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ALGORITHM&quot; : &quot;PBEWITHMD5AND256BITAES-CBC-OPENSSL&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY_PROTECTED&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_PROVIDER&quot; : &quot;BC&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_CONFIGURATION_FILE&quot; : &quot;./conf/state-management.xml&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_PROPERTIES&quot; : &quot;./conf/zookeeper.properties&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_START&quot; : &quot;false&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_CLUSTER&quot; : &quot;zk-provider&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_LOCAL&quot; : &quot;local-provider&quot;,
+          &quot;NIFI_SWAP_IN_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_IN_THREADS&quot; : &quot;1&quot;,
+          &quot;NIFI_SWAP_MANAGER_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.FileSystemSwapManager&quot;,
+          &quot;NIFI_SWAP_OUT_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_OUT_THREADS&quot; : &quot;4&quot;,
+          &quot;NIFI_VARIABLE_REGISTRY_PROPERTIES&quot; : &quot;&quot;,
+          &quot;NIFI_VERSION&quot; : &quot;1.5.0&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_BLOCK_SIZE&quot; : &quot;32 KB&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_MAX_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_WEB_HTTPS_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_PORT&quot; : &quot;8443&quot;,
+          &quot;NIFI_WEB_HTTP_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_PORT&quot; : &quot;8080&quot;,
+          &quot;NIFI_WEB_JETTY_THREADS&quot; : &quot;200&quot;,
+          &quot;NIFI_WEB_JETTY_WORKING_DIRECTORY&quot; : &quot;./work/jetty&quot;,
+          &quot;NIFI_WEB_WAR_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_STRING&quot; : &quot;master.mesos:2181&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_TIMEOUT&quot; : &quot;3 secs&quot;,
+          &quot;NIFI_ZOOKEEPER_ROOT_NODE&quot; : &quot;/nifi&quot;,
+          &quot;NIFI_ZOOKEEPER_SESSION_TIMEOUT&quot; : &quot;3 secs&quot;
+        }
+      },
+      &quot;health-check-spec&quot; : null,
+      &quot;readiness-check-spec&quot; : null,
+      &quot;config-files&quot; : [ ],
+      &quot;discovery-spec&quot; : null,
+      &quot;kill-grace-period&quot; : 0,
+      &quot;transport-encryption&quot; : [ ]
+    }, {
+      &quot;name&quot; : &quot;node&quot;,
+      &quot;goal&quot; : &quot;RUNNING&quot;,
+      &quot;essential&quot; : true,
+      &quot;resource-set&quot; : {
+        &quot;id&quot; : &quot;node-resources&quot;,
+        &quot;resource-specifications&quot; : [ {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;cpus&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 1.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        }, {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;mem&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 4096.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        }, {
+          &quot;@type&quot; : &quot;NamedVIPSpec&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;RANGES&quot;,
+            &quot;scalar&quot; : null,
+            &quot;ranges&quot; : {
+              &quot;range&quot; : [ {
+                &quot;begin&quot; : 0,
+                &quot;end&quot; : 0
+              } ]
+            },
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;,
+          &quot;env-key&quot; : &quot;PORT_WEB&quot;,
+          &quot;port-name&quot; : &quot;web&quot;,
+          &quot;protocol&quot; : &quot;tcp&quot;,
+          &quot;visibility&quot; : &quot;EXTERNAL&quot;,
+          &quot;vip-name&quot; : &quot;web&quot;,
+          &quot;vip-port&quot; : 8080,
+          &quot;network-names&quot; : [ ],
+          &quot;name&quot; : &quot;ports&quot;
+        }, {
+          &quot;@type&quot; : &quot;PortSpec&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;RANGES&quot;,
+            &quot;scalar&quot; : null,
+            &quot;ranges&quot; : {
+              &quot;range&quot; : [ {
+                &quot;begin&quot; : 0,
+                &quot;end&quot; : 0
+              } ]
+            },
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;,
+          &quot;env-key&quot; : &quot;PORT_WEB&quot;,
+          &quot;port-name&quot; : &quot;node&quot;,
+          &quot;visibility&quot; : &quot;EXTERNAL&quot;,
+          &quot;network-names&quot; : [ ],
+          &quot;name&quot; : &quot;ports&quot;
+        } ],
+        &quot;volume-specifications&quot; : [ {
+          &quot;@type&quot; : &quot;DefaultVolumeSpec&quot;,
+          &quot;type&quot; : &quot;ROOT&quot;,
+          &quot;container-path&quot; : &quot;database-repository&quot;,
+          &quot;name&quot; : &quot;disk&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 1000.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        }, {
+          &quot;@type&quot; : &quot;DefaultVolumeSpec&quot;,
+          &quot;type&quot; : &quot;ROOT&quot;,
+          &quot;container-path&quot; : &quot;flowfile-repository&quot;,
+          &quot;name&quot; : &quot;disk&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 1000.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        }, {
+          &quot;@type&quot; : &quot;DefaultVolumeSpec&quot;,
+          &quot;type&quot; : &quot;ROOT&quot;,
+          &quot;container-path&quot; : &quot;provenance-repository&quot;,
+          &quot;name&quot; : &quot;disk&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 1000.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        }, {
+          &quot;@type&quot; : &quot;DefaultVolumeSpec&quot;,
+          &quot;type&quot; : &quot;ROOT&quot;,
+          &quot;container-path&quot; : &quot;content-repository&quot;,
+          &quot;name&quot; : &quot;disk&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 1000.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        }, {
+          &quot;@type&quot; : &quot;DefaultVolumeSpec&quot;,
+          &quot;type&quot; : &quot;ROOT&quot;,
+          &quot;container-path&quot; : &quot;misc-repository&quot;,
+          &quot;name&quot; : &quot;disk&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 1000.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        } ],
+        &quot;role&quot; : &quot;nifi-role&quot;,
+        &quot;principal&quot; : &quot;nifi-principal&quot;
+      },
+      &quot;command-spec&quot; : {
+        &quot;value&quot; : &quot;./bootstrap \nexport JAVA_HOME=$(ls -d $MESOS_SANDBOX/jdk*/jre*/) &amp;&amp; export JAVA_HOME=${JAVA_HOME%/} &amp;&amp; export PATH=$(ls -d $JAVA_HOME/bin):$PATH\necho \&quot;INSTALL\&quot; &gt; misc-repository/readiness-info.txt \n./nifi-${NIFI_VERSION}/bin/nifi.sh run\n&quot;,
+        &quot;environment&quot; : {
+          &quot;NIFI_CLUSTER_FIREWALL_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_CANDIDATES&quot; : &quot;3&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_WAIT_TIME&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CLUSTER_IS_NODE&quot; : &quot;true&quot;,
+          &quot;NIFI_CLUSTER_NODE_ADDRESS&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_NODE_CONNECTION_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_NODE_EVENT_HISTORY_SIZE&quot; : &quot;25&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_PORT&quot; : &quot;12000&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_THREADS&quot; : &quot;10&quot;,
+          &quot;NIFI_CLUSTER_NODE_READ_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_PROTOCOL_HEARTBEAT_INTERVAL&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_BUFFER_SIZE&quot; : &quot;1440&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.status.history.VolatileComponentStatusRepository&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_SNAPSHOT_FREQUENCY&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_APPENDABLE_SIZE&quot; : &quot;10 MB&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_FLOW_FILES&quot; : &quot;100&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_RETENTION_PERIOD&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_USAGE_PERCENTAGE&quot; : &quot;50%&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;content-repository&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.FileSystemRepository&quot;,
+          &quot;NIFI_CONTENT_VIEWER_URL&quot; : &quot;/nifi-content-viewer/&quot;,
+          &quot;NIFI_CORE_ADMINISTRATIVE_YIELD_DURATION&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_AUTHORIZER_CONFIGURATION_FILE&quot; : &quot;./conf/authorizers.xml&quot;,
+          &quot;NIFI_CORE_BORED_YIELD_DURATION&quot; : &quot;10 millis&quot;,
+          &quot;NIFI_CORE_DOCUMENTATION_WORKING_DIRECTORY&quot; : &quot;./work/docs/components&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_AUTORESUMESTATE&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_GRACEFUL_SHUTDOWN_PERIOD&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_CORE_FLOWSERVICE_WRITEDELAY_INTERVAL&quot; : &quot;500 ms&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_DIR&quot; : &quot;./conf/archive&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_COUNT&quot; : &quot;&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_STORAGE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_TIME&quot; : &quot;30 days&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_FILE&quot; : &quot;conf/flow.xml.gz&quot;,
+          &quot;NIFI_CORE_LOGIN_IDENTITY_PROVIDER_CONFIGURATION_FILE&quot; : &quot;./conf/login-identity-providers.xml&quot;,
+          &quot;NIFI_CORE_NAR_LIBRARY_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_CORE_NAR_WORKING_DIRECTORY&quot; : &quot;./work/nar&quot;,
+          &quot;NIFI_CORE_PROCESSOR_SCHEDULING_TIMEOUT&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CORE_TEMPLATES_DIRECTORY&quot; : &quot;./conf/templates&quot;,
+          &quot;NIFI_CORE_UI_AUTOREFRESH_INTERVAL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_UI_BANNER_TEXT&quot; : &quot;&quot;,
+          &quot;NIFI_DATABASE_DIRECTORY&quot; : &quot;database-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_CHECKPOINT_INTERVAL&quot; : &quot;2 mins&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_DIRECTORY&quot; : &quot;flowfile-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.WriteAheadFlowFileRepository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_PARTITIONS&quot; : &quot;256&quot;,
+          &quot;NIFI_H2_URL_APPEND&quot; : &quot;;LOCK_TIMEOUT&amp;#61;25000;WRITE_DELAY&amp;#61;0;AUTO_SERVER&amp;#61;FALSE&quot;,
+          &quot;NIFI_KERBEROS_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_DEFAULT_REALM&quot; : &quot;NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_KRB5_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_PRINCIPAL&quot; : &quot;nifi/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_PRINCIPAL&quot; : &quot;HTTP/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_STRATEGY&quot; : &quot;START_TLS&quot;,
+          &quot;NIFI_LDAP_CONNECT_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_IDENTITY_STRATEGY&quot; : &quot;USE_DN&quot;,
+          &quot;NIFI_LDAP_MANAGER_DN&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_MANAGER_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_READ_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_REFERRAL_STRATEGY&quot; : &quot;FOLLOW&quot;,
+          &quot;NIFI_LDAP_TLS_CLIENT_AUTH&quot; : &quot;REQUIRED&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_TLS_PROTOCOL&quot; : &quot;TLSv1.2&quot;,
+          &quot;NIFI_LDAP_TLS_SHUTDOWN_GRACEFULLY&quot; : &quot;false&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_URL&quot; : &quot;ldap://ldap.example.com:389&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_BASE&quot; : &quot;CN&amp;#61;Users,DC&amp;#61;example,DC&amp;#61;com&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_FILTER&quot; : &quot;sAMAccountName&amp;#61;{0}&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_BUFFER_SIZE&quot; : &quot;100000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_COMPRESS_ON_ROLLOVER&quot; : &quot;true&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_CONCURRENT_MERGE_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DEBUG_FREQUENCY&quot; : &quot;1_000_000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;provenance-repository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_ID&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_IMPLEMENTATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.provenance.PersistentProvenanceRepository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_ATTRIBUTES&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_FIELDS&quot; : &quot;EventType, FlowFileUUID, Filename, ProcessorID, Relationship&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_SHARD_SIZE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_JOURNAL_COUNT&quot; : &quot;16&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_ATTRIBUTE_LENGTH&quot; : &quot;65536&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_SIZE&quot; : &quot;1 GB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_TIME&quot; : &quot;24 hours&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_QUERY_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_TIME&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_WARM_CACHE_FREQUENCY&quot; : &quot;&quot;,
+          &quot;NIFI_QUEUE_SWAP_THRESHOLD&quot; : &quot;20000&quot;,
+          &quot;NIFI_REMOTE_INPUT_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_TRANSACTION_TTL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_REMOTE_INPUT_SECURE&quot; : &quot;false&quot;,
+          &quot;NIFI_REMOTE_INPUT_SOCKET_PORT&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_DN&quot; : &quot;^CN&amp;#61;(.*?), OU&amp;#61;(.*?), O&amp;#61;(.*?), L&amp;#61;(.*?), ST&amp;#61;(.*?), C&amp;#61;(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_KERB&quot; : &quot;^(.*?)/instance@(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_DN&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_KERB&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_KEYPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_NEEDCLIENTAUTH&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_CERTIFICATE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_URL&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_USER_AUTHORIZER&quot; : &quot;file-provider&quot;,
+          &quot;NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ADDITIONAL_KEYS&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ALGORITHM&quot; : &quot;PBEWITHMD5AND256BITAES-CBC-OPENSSL&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY_PROTECTED&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_PROVIDER&quot; : &quot;BC&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_CONFIGURATION_FILE&quot; : &quot;./conf/state-management.xml&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_PROPERTIES&quot; : &quot;./conf/zookeeper.properties&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_START&quot; : &quot;false&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_CLUSTER&quot; : &quot;zk-provider&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_LOCAL&quot; : &quot;local-provider&quot;,
+          &quot;NIFI_SWAP_IN_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_IN_THREADS&quot; : &quot;1&quot;,
+          &quot;NIFI_SWAP_MANAGER_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.FileSystemSwapManager&quot;,
+          &quot;NIFI_SWAP_OUT_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_OUT_THREADS&quot; : &quot;4&quot;,
+          &quot;NIFI_VARIABLE_REGISTRY_PROPERTIES&quot; : &quot;&quot;,
+          &quot;NIFI_VERSION&quot; : &quot;1.5.0&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_BLOCK_SIZE&quot; : &quot;32 KB&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_MAX_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_WEB_HTTPS_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_PORT&quot; : &quot;8443&quot;,
+          &quot;NIFI_WEB_HTTP_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_PORT&quot; : &quot;8080&quot;,
+          &quot;NIFI_WEB_JETTY_THREADS&quot; : &quot;200&quot;,
+          &quot;NIFI_WEB_JETTY_WORKING_DIRECTORY&quot; : &quot;./work/jetty&quot;,
+          &quot;NIFI_WEB_WAR_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_STRING&quot; : &quot;master.mesos:2181&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_TIMEOUT&quot; : &quot;3 secs&quot;,
+          &quot;NIFI_ZOOKEEPER_ROOT_NODE&quot; : &quot;/nifi&quot;,
+          &quot;NIFI_ZOOKEEPER_SESSION_TIMEOUT&quot; : &quot;3 secs&quot;,
+          &quot;NODE_CPUS&quot; : &quot;1&quot;,
+          &quot;NODE_MEM&quot; : &quot;4096&quot;
+        }
+      },
+      &quot;health-check-spec&quot; : null,
+      &quot;readiness-check-spec&quot; : {
+        &quot;command&quot; : &quot;# The Nifi node has started when it logs a specific \n# \&quot;${TASK_NAME}.${FRAMEWORK_HOST}:$nifi_web_port is now connected\&quot; log line. \n# An example is below:\n# 2018/03/05 11:11:37 nifi-0-node.nifi.autoip.dcos.thisdcos.directory:1025 is now connected.\nnifi_server_log_files=nifi-${NIFI_VERSION}/logs/nifi-app.log\nnifi_host_name=${TASK_NAME}.${FRAMEWORK_HOST}\nnifi_host_name_local=localhost\nnifi_web_port=${PORT_WEB}\nreadiness_info=`cat misc-repository/readiness-info.txt`\necho \&quot;Executing shell script.\&quot;\necho \&quot;$readiness_info\&quot;\nif [ \&quot;$readiness_info\&quot; == \&quot;INSTALL\&quot; ] ; then\n  echo \&quot;Checking for successful log line in $nifi_server_log_files.\&quot;\n  echo \&quot;Looking for \\\&quot;$nifi_host_name:$nifi_web_port is now connected or NiFi has started.\\\&quot; in the server log file.\&quot;\n  grep -q \&quot;$nifi_host_name:$nifi_web_port is now connected\\|NiFi has started.\&quot; $nifi_server_log_files\n  if [ $? -eq 0 ] ; then\n    echo \&quot;Found started log line.\&quot;\n    echo \&quot;READY\&quot; &gt; misc-repository/readiness-info.txt\n    echo \&quot;HOST=$nifi_host_name_local\&quot; &gt; misc-repository/url-info.properties\n    echo \&quot;PORT=$nifi_web_port\&quot; &gt;&gt; misc-repository/url-info.properties\n  else\n    echo \&quot;started log line not found. Exiting.\&quot;\n    exit 1\n  fi\n  echo \&quot;Required log line found. Nifi is ready.\&quot;\nelif [ $readiness_info == \&quot;READY\&quot; ] ; then\n  echo \&quot;Nifi is ready.\&quot;\nelif [ $readiness_info == \&quot;RUNNING\&quot; ] ; then\n  echo \&quot;Nifi is running.\&quot;\nfi\nexit 0\n&quot;,
+        &quot;delay&quot; : 10,
+        &quot;interval&quot; : 5,
+        &quot;timeout&quot; : 120
+      },
+      &quot;config-files&quot; : [ {
+        &quot;name&quot; : &quot;nifi.properties&quot;,
+        &quot;relative-path&quot; : &quot;nifi-1.5.0/conf/nifi.properties&quot;,
+        &quot;template-content&quot; : &quot;# Licensed to the Apache Software Foundation (ASF) under one or more\n# contributor license agreements.  See the NOTICE file distributed with\n# this work for additional information regarding copyright ownership.\n# The ASF licenses this file to You under the Apache License, Version 2.0\n# (the \&quot;License\&quot;); you may not use this file except in compliance with\n# the License.  You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \&quot;AS IS\&quot; BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# Core Properties #\nnifi.flow.configuration.file={{MESOS_SANDBOX}}/{{NIFI_FLOWFILE_REPOSITORY_DIRECTORY}}/flow.xml.gz\nnifi.flow.configuration.archive.enabled={{NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_ENABLED}}\nnifi.flow.configuration.archive.dir={{NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_DIR}}\nnifi.flow.configuration.archive.max.time={{NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_TIME}}\nnifi.flow.configuration.archive.max.storage={{NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_STORAGE}}\nnifi.flow.configuration.archive.max.count={{NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_COUNT}}\nnifi.flowcontroller.autoResumeState={{NIFI_CORE_FLOWCONTROLLER_AUTORESUMESTATE}}\nnifi.flowcontroller.graceful.shutdown.period={{NIFI_CORE_FLOWCONTROLLER_GRACEFUL_SHUTDOWN_PERIOD}}\nnifi.flowservice.writedelay.interval={{NIFI_CORE_FLOWSERVICE_WRITEDELAY_INTERVAL}}\nnifi.administrative.yield.duration={{NIFI_CORE_ADMINISTRATIVE_YIELD_DURATION}}\n# If a component has no work to do (is \&quot;bored\&quot;), how long should we wait before checking again for work?\nnifi.bored.yield.duration={{NIFI_CORE_BORED_YIELD_DURATION}}\n\nnifi.authorizer.configuration.file={{NIFI_CORE_AUTHORIZER_CONFIGURATION_FILE}}\nnifi.login.identity.provider.configuration.file={{NIFI_CORE_LOGIN_IDENTITY_PROVIDER_CONFIGURATION_FILE}}\nnifi.templates.directory={{NIFI_CORE_TEMPLATES_DIRECTORY}}\nnifi.ui.banner.text={{NIFI_CORE_UI_BANNER_TEXT}}\nnifi.ui.autorefresh.interval={{NIFI_CORE_UI_AUTOREFRESH_INTERVAL}}\nnifi.nar.library.directory={{NIFI_CORE_NAR_LIBRARY_DIRECTORY}}\nnifi.nar.working.directory={{NIFI_CORE_NAR_WORKING_DIRECTORY}}\nnifi.documentation.working.directory={{NIFI_CORE_DOCUMENTATION_WORKING_DIRECTORY}}\n\nnifi.processor.scheduling.timeout={{NIFI_CORE_PROCESSOR_SCHEDULING_TIMEOUT}}\n\n\n# State Management #\n####################\nnifi.state.management.configuration.file={{NIFI_STATE_MANAGEMENT_CONFIGURATION_FILE}}\n# The ID of the local state provider\nnifi.state.management.provider.local={{NIFI_STATE_MANAGEMENT_PROVIDER_LOCAL}}\n# The ID of the cluster-wide state provider. This will be ignored if NiFi is not clustered but must be populated if running in a cluster.\nnifi.state.management.provider.cluster={{NIFI_STATE_MANAGEMENT_PROVIDER_CLUSTER}}\n# Specifies whether or not this instance of NiFi should run an embedded ZooKeeper server\nnifi.state.management.embedded.zookeeper.start={{NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_START}}\n# Properties file that provides the ZooKeeper properties to use if &lt;nifi.state.management.embedded.zookeeper.start&gt; is set to true\nnifi.state.management.embedded.zookeeper.properties={{NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_PROPERTIES}}\n\n\n# H2 Settings\nnifi.database.directory={{MESOS_SANDBOX}}/{{NIFI_DATABASE_DIRECTORY}}\nnifi.h2.url.append={{NIFI_H2_URL_APPEND}}\n\n# FlowFile Repository\nnifi.flowfile.repository.implementation={{NIFI_FLOWFILE_REPOSITORY_IMPLEMENTATION}}\nnifi.flowfile.repository.directory={{MESOS_SANDBOX}}/{{NIFI_FLOWFILE_REPOSITORY_DIRECTORY}}\nnifi.flowfile.repository.partitions={{NIFI_FLOWFILE_REPOSITORY_PARTITIONS}}\nnifi.flowfile.repository.checkpoint.interval={{NIFI_FLOWFILE_REPOSITORY_CHECKPOINT_INTERVAL}}\nnifi.flowfile.repository.always.sync={{NIFI_FLOWFILE_REPOSITORY_ALWAYS_SYNC}}\n\n# Swap Management Properties\nnifi.swap.manager.implementation={{NIFI_SWAP_MANAGER_IMPLEMENTATION}}\nnifi.queue.swap.threshold={{NIFI_QUEUE_SWAP_THRESHOLD}}\nnifi.swap.in.period={{NIFI_SWAP_IN_PERIOD}}\nnifi.swap.in.threads={{NIFI_SWAP_IN_THREADS}}\nnifi.swap.out.period={{NIFI_SWAP_OUT_PERIOD}}\nnifi.swap.out.threads={{NIFI_SWAP_OUT_THREADS}}\n\n# Content Repository Properties\nnifi.content.repository.implementation={{NIFI_CONTENT_REPOSITORY_IMPLEMENTATION}}\n\n# File System Content Repository Properties\nnifi.content.claim.max.appendable.size={{NIFI_CONTENT_CLAIM_MAX_APPENDABLE_SIZE}}\nnifi.content.claim.max.flow.files={{NIFI_CONTENT_CLAIM_MAX_FLOW_FILES}}\nnifi.content.repository.directory.default={{MESOS_SANDBOX}}/{{NIFI_CONTENT_REPOSITORY_DIRECTORY_DEFAULT}}\nnifi.content.repository.archive.max.retention.period={{NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_RETENTION_PERIOD}}\nnifi.content.repository.archive.max.usage.percentage={{NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_USAGE_PERCENTAGE}}\nnifi.content.repository.archive.enabled={{NIFI_CONTENT_REPOSITORY_ARCHIVE_ENABLED}}\nnifi.content.repository.always.sync={{NIFI_CONTENT_REPOSITORY_ALWAYS_SYNC}}\nnifi.content.viewer.url={{NIFI_CONTENT_VIEWER_URL}}\n\n#Volatile Content Repository Properties\nnifi.volatile.content.repository.max.size={{NIFI_VOLATILE_CONTENT_REPOSITORY_MAX_SIZE}}\nnifi.volatile.content.repository.block.size={{NIFI_VOLATILE_CONTENT_REPOSITORY_BLOCK_SIZE}}\n\n# Provenance Repository Properties\nnifi.provenance.repository.implementation=org.apache.nifi.provenance.PersistentProvenanceRepository\nnifi.provenance.repository.debug.frequency=1_{{TASK_NAME}}.{{FRAMEWORK_HOST}}\nnifi.provenance.repository.encryption.key.provider.implementation=\nnifi.provenance.repository.encryption.key.provider.location=\nnifi.provenance.repository.encryption.key.id=\nnifi.provenance.repository.encryption.key=\n\n# Provenance Repository Properties\nnifi.provenance.repository.implementation={{NIFI_PROVENANCE_REPOSITORY_IMPLEMENTATION}}\n\n# Persistent Provenance Repository Properties\nnifi.provenance.repository.directory.default={{MESOS_SANDBOX}}/{{NIFI_PROVENANCE_REPOSITORY_DIRECTORY_DEFAULT}}\nnifi.provenance.repository.max.storage.time={{NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_TIME}}\nnifi.provenance.repository.max.storage.size={{NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_SIZE}}\nnifi.provenance.repository.rollover.time={{NIFI_PROVENANCE_REPOSITORY_ROLLOVER_TIME}}\nnifi.provenance.repository.rollover.size={{NIFI_PROVENANCE_REPOSITORY_ROLLOVER_SIZE}}\nnifi.provenance.repository.query.threads={{NIFI_PROVENANCE_REPOSITORY_QUERY_THREADS}}\nnifi.provenance.repository.index.threads={{NIFI_PROVENANCE_REPOSITORY_INDEX_THREADS}}\nnifi.provenance.repository.compress.on.rollover={{NIFI_PROVENANCE_REPOSITORY_COMPRESS_ON_ROLLOVER}}\nnifi.provenance.repository.always.sync={{NIFI_PROVENANCE_REPOSITORY_ALWAYS_SYNC}}\nnifi.provenance.repository.journal.count={{NIFI_PROVENANCE_REPOSITORY_JOURNAL_COUNT}}\nnifi.provenance.repository.indexed.fields={{NIFI_PROVENANCE_REPOSITORY_INDEXED_FIELDS}}\nnifi.provenance.repository.indexed.attributes={{NIFI_PROVENANCE_REPOSITORY_INDEXED_ATTRIBUTES}}\nnifi.provenance.repository.index.shard.size={{NIFI_PROVENANCE_REPOSITORY_INDEX_SHARD_SIZE}}\nnifi.provenance.repository.max.attribute.length={{NIFI_PROVENANCE_REPOSITORY_MAX_ATTRIBUTE_LENGTH}}\n\n# Volatile Provenance Respository Properties\nnifi.provenance.repository.buffer.size={{NIFI_PROVENANCE_REPOSITORY_BUFFER_SIZE}}\n\n# Write Ahead Provenance Repository Properties\n# (In addition to Persistent Provenance Repository Properties)\nnifi.provenance.repository.concurrent.merge.threads={{NIFI_PROVENANCE_REPOSITORY_CONCURRENT_MERGE_THREADS}}\nnifi.provenance.repository.warm.cache.frequency={{NIFI_PROVENANCE_REPOSITORY_WARM_CACHE_FREQUENCY}}\n\n# Encrypted Write Ahead Provenance Repository Properties\nnifi.provenance.repository.debug.frequency={{NIFI_PROVENANCE_REPOSITORY_DEBUG_FREQUENCY}}\nnifi.provenance.repository.encryption.key.provider.implementation={{NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_IMPLEMENTATION}}\nnifi.provenance.repository.encryption.key.provider.location={{NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_LOCATION}}\nnifi.provenance.repository.encryption.key.id={{NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_ID}}\nnifi.provenance.repository.encryption.key={{NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY}}\n\n# Component Status Repository\nnifi.components.status.repository.implementation={{NIFI_COMPONENTS_STATUS_REPOSITORY_IMPLEMENTATION}}\nnifi.components.status.repository.buffer.size={{NIFI_COMPONENTS_STATUS_REPOSITORY_BUFFER_SIZE}}\nnifi.components.status.snapshot.frequency={{NIFI_COMPONENTS_STATUS_SNAPSHOT_FREQUENCY}}\n\n# Site to Site properties\nnifi.remote.input.host={{TASK_NAME}}.{{FRAMEWORK_HOST}}\nnifi.remote.input.secure={{NIFI_REMOTE_INPUT_SECURE}}\nnifi.remote.input.socket.port={{NIFI_REMOTE_INPUT_SOCKET_PORT}}\n{{^NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\nnifi.remote.input.http.enabled={{NIFI_REMOTE_INPUT_HTTP_ENABLED}}\nnifi.remote.input.http.transaction.ttl={{NIFI_REMOTE_INPUT_HTTP_TRANSACTION_TTL}}\n{{/NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\n\n# Web Properties\nnifi.web.war.directory={{NIFI_WEB_WAR_DIRECTORY}}\n{{^NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\nnifi.web.http.host={{TASK_NAME}}.{{FRAMEWORK_HOST}}\nnifi.web.http.port={{PORT_WEB}}\nnifi.web.http.network.interface.default={{NIFI_WEB_HTTP_NETWORK_INTERFACE_DEFAULT}}\nnifi.web.https.host=\nnifi.web.https.port=\nnifi.web.https.network.interface.default=\n{{/NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\n{{#NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\nnifi.web.http.host=\nnifi.web.http.port=\nnifi.web.http.network.interface.default=\nnifi.web.https.host={{TASK_NAME}}.{{FRAMEWORK_HOST}}\nnifi.web.https.port={{PORT_WEB}}\nnifi.web.https.network.interface.default={{NIFI_WEB_HTTPS_NETWORK_INTERFACE_DEFAULT}}\n{{/NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\nnifi.web.jetty.working.directory={{NIFI_WEB_JETTY_WORKING_DIRECTORY}}\nnifi.web.jetty.threads={{NIFI_WEB_JETTY_THREADS}}\n\n# Security Properties\n{{#NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\nnifi.sensitive.props.key={{NIFI_SENSITIVE_PROPS_KEY}}\nnifi.sensitive.props.key.protected={{NIFI_SENSITIVE_PROPS_KEY_PROTECTED}}\nnifi.sensitive.props.algorithm={{NIFI_SENSITIVE_PROPS_ALGORITHM}}\nnifi.sensitive.props.provider={{NIFI_SENSITIVE_PROPS_PROVIDER}}\nnifi.sensitive.props.additional.keys={{NIFI_SENSITIVE_PROPS_ADDITIONAL_KEYS}}\n\nnifi.security.keystore={{MESOS_SANDBOX}}/node.keystore\nnifi.security.keystoreType=jks\nnifi.security.keystorePasswd=notsecure\nnifi.security.keyPasswd=notsecure\nnifi.security.truststore={{MESOS_SANDBOX}}/node.truststore\nnifi.security.truststoreType=jks\nnifi.security.truststorePasswd=notsecure\nnifi.security.needClientAuth=true\n\nnifi.security.user.authorizer=managed-authorizer\nnifi.security.user.login.identity.provider=\nnifi.security.ocsp.responder.url=\nnifi.security.ocsp.responder.certificate=\n{{/NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\n\n{{^NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\nnifi.sensitive.props.key={{NIFI_SENSITIVE_PROPS_KEY}}\nnifi.sensitive.props.key.protected={{NIFI_SENSITIVE_PROPS_KEY_PROTECTED}}\nnifi.sensitive.props.algorithm={{NIFI_SENSITIVE_PROPS_ALGORITHM}}\nnifi.sensitive.props.provider={{NIFI_SENSITIVE_PROPS_PROVIDER}}\nnifi.sensitive.props.additional.keys={{NIFI_SENSITIVE_PROPS_ADDITIONAL_KEYS}}\n\nnifi.security.keystore={{NIFI_SECURITY_KEYSTORE}}\nnifi.security.keystoreType={{NIFI_SECURITY_KEYSTORETYPE}}\nnifi.security.keystorePasswd={{NIFI_SECURITY_KEYSTOREPASSWD}}\nnifi.security.keyPasswd={{NIFI_SECURITY_KEYPASSWD}}\nnifi.security.truststore={{NIFI_SECURITY_TRUSTSTORE}}\nnifi.security.truststoreType={{NIFI_SECURITY_TRUSTSTORETYPE}}\nnifi.security.truststorePasswd={{NIFI_SECURITY_TRUSTSTOREPASSWD}}\n\nnifi.security.needClientAuth={{NIFI_SECURITY_NEEDCLIENTAUTH}}\nnifi.security.user.authorizer={{NIFI_SECURITY_USER_AUTHORIZER}}\nnifi.security.user.login.identity.provider={{NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER}}\nnifi.security.ocsp.responder.url={{NIFI_SECURITY_OCSP_RESPONDER_URL}}\nnifi.security.ocsp.responder.certificate={{NIFI_SECURITY_OCSP_RESPONDER_CERTIFICATE}}\n{{/NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\n\n# Identity Mapping Properties\nnifi.security.identity.mapping.pattern.dn={{NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_DN}}\nnifi.security.identity.mapping.value.dn={{NIFI_SECURITY_IDENTITY_MAPPING_VALUE_DN}}\nnifi.security.identity.mapping.pattern.kerb={{NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_KERB}}\nnifi.security.identity.mapping.value.kerb={{NIFI_SECURITY_IDENTITY_MAPPING_VALUE_KERB}}\n\n# Cluster Common Properties\nnifi.cluster.protocol.heartbeat.interval={{NIFI_CLUSTER_PROTOCOL_HEARTBEAT_INTERVAL}}\n{{^NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\nnifi.cluster.protocol.is.secure=false\n{{/NIFI_CLUSTER_PROTOCOL_IS_SECURE}} \n{{#NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\nnifi.cluster.protocol.is.secure=true\n{{/NIFI_CLUSTER_PROTOCOL_IS_SECURE}}\n\n# Cluster Node Properties\nnifi.cluster.is.node={{NIFI_CLUSTER_IS_NODE}}\nnifi.cluster.node.address={{TASK_NAME}}.{{FRAMEWORK_HOST}}\nnifi.cluster.node.protocol.port={{NIFI_CLUSTER_NODE_PROTOCOL_PORT}}\nnifi.cluster.node.protocol.threads={{NIFI_CLUSTER_NODE_PROTOCOL_THREADS}}\nnifi.cluster.node.event.history.size={{NIFI_CLUSTER_NODE_EVENT_HISTORY_SIZE}}\nnifi.cluster.node.connection.timeout={{NIFI_CLUSTER_NODE_CONNECTION_TIMEOUT}}\nnifi.cluster.node.read.timeout={{NIFI_CLUSTER_NODE_READ_TIMEOUT}}\nnifi.cluster.firewall.file={{NIFI_CLUSTER_FIREWALL_FILE}}\nnifi.cluster.flow.election.max.wait.time={{NIFI_CLUSTER_FLOW_ELECTION_MAX_WAIT_TIME}}\nnifi.cluster.flow.election.max.candidates=\n\n# Zookeeper Properties\nnifi.zookeeper.connect.string={{NIFI_ZOOKEEPER_CONNECT_STRING}}\nnifi.zookeeper.connect.timeout={{NIFI_ZOOKEEPER_CONNECT_TIMEOUT}}\nnifi.zookeeper.session.timeout={{NIFI_ZOOKEEPER_SESSION_TIMEOUT}}\nnifi.zookeeper.root.node=/{{FRAMEWORK_NAME}}\n\n# Kerberos Properties\nnifi.kerberos.krb5.file={{NIFI_KERBEROS_KRB5_FILE}}\nnifi.kerberos.service.principal=nifi/{{TASK_NAME}}.{{FRAMEWORK_HOST}}@{{NIFI_KERBEROS_DEFAULT_REALM}}\nnifi.kerberos.service.keytab.location={{NIFI_KERBEROS_SERVICE_KEYTAB_LOCATION}}\nnifi.kerberos.spnego.principal=HTTP/{{TASK_NAME}}.{{FRAMEWORK_HOST}}@{{NIFI_KERBEROS_DEFAULT_REALM}}\nnifi.kerberos.spnego.keytab.location={{NIFI_KERBEROS_SPNEGO_KEYTAB_LOCATION}}\nnifi.kerberos.spnego.authentication.expiration={{NIFI_KERBEROS_SPNEGO_AUTHENTICATION_EXPIRATION}}\n\n# Custom Properties\nnifi.variable.registry.properties={{NIFI_VARIABLE_REGISTRY_PROPERTIES}}\n&quot;
+      } ],
+      &quot;discovery-spec&quot; : null,
+      &quot;kill-grace-period&quot; : 0,
+      &quot;transport-encryption&quot; : [ ]
+    }, {
+      &quot;name&quot; : &quot;restart-cleanup&quot;,
+      &quot;goal&quot; : &quot;ONCE&quot;,
+      &quot;essential&quot; : true,
+      &quot;resource-set&quot; : {
+        &quot;id&quot; : &quot;sidecar-cleanupresources&quot;,
+        &quot;resource-specifications&quot; : [ {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;cpus&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 0.5
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        }, {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;mem&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 512.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        } ],
+        &quot;volume-specifications&quot; : [ ],
+        &quot;role&quot; : &quot;nifi-role&quot;,
+        &quot;principal&quot; : &quot;nifi-principal&quot;
+      },
+      &quot;command-spec&quot; : {
+        &quot;value&quot; : &quot;# Clean Nifi Application i.e. remove all disconnected node.\nmisc_repo_path=../../misc-repository\necho \&quot;Executing Janitor program to clean the Nifi disconnected node.\&quot;\nexport JAVA_HOME=$(ls -d $MESOS_SANDBOX/jdk*/jre*/) &amp;&amp; export JAVA_HOME=${JAVA_HOME%/} &amp;&amp; export PATH=$(ls -d $JAVA_HOME/bin):$PATH\njava -jar dcos-nifi-janitor.jar $misc_repo_path/readiness-info.txt $misc_repo_path/url-info.properties\n&quot;,
+        &quot;environment&quot; : {
+          &quot;NIFI_CLUSTER_FIREWALL_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_CANDIDATES&quot; : &quot;3&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_WAIT_TIME&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CLUSTER_IS_NODE&quot; : &quot;true&quot;,
+          &quot;NIFI_CLUSTER_NODE_ADDRESS&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_NODE_CONNECTION_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_NODE_EVENT_HISTORY_SIZE&quot; : &quot;25&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_PORT&quot; : &quot;12000&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_THREADS&quot; : &quot;10&quot;,
+          &quot;NIFI_CLUSTER_NODE_READ_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_PROTOCOL_HEARTBEAT_INTERVAL&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_BUFFER_SIZE&quot; : &quot;1440&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.status.history.VolatileComponentStatusRepository&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_SNAPSHOT_FREQUENCY&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_APPENDABLE_SIZE&quot; : &quot;10 MB&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_FLOW_FILES&quot; : &quot;100&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_RETENTION_PERIOD&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_USAGE_PERCENTAGE&quot; : &quot;50%&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;content-repository&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.FileSystemRepository&quot;,
+          &quot;NIFI_CONTENT_VIEWER_URL&quot; : &quot;/nifi-content-viewer/&quot;,
+          &quot;NIFI_CORE_ADMINISTRATIVE_YIELD_DURATION&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_AUTHORIZER_CONFIGURATION_FILE&quot; : &quot;./conf/authorizers.xml&quot;,
+          &quot;NIFI_CORE_BORED_YIELD_DURATION&quot; : &quot;10 millis&quot;,
+          &quot;NIFI_CORE_DOCUMENTATION_WORKING_DIRECTORY&quot; : &quot;./work/docs/components&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_AUTORESUMESTATE&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_GRACEFUL_SHUTDOWN_PERIOD&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_CORE_FLOWSERVICE_WRITEDELAY_INTERVAL&quot; : &quot;500 ms&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_DIR&quot; : &quot;./conf/archive&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_COUNT&quot; : &quot;&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_STORAGE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_TIME&quot; : &quot;30 days&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_FILE&quot; : &quot;conf/flow.xml.gz&quot;,
+          &quot;NIFI_CORE_LOGIN_IDENTITY_PROVIDER_CONFIGURATION_FILE&quot; : &quot;./conf/login-identity-providers.xml&quot;,
+          &quot;NIFI_CORE_NAR_LIBRARY_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_CORE_NAR_WORKING_DIRECTORY&quot; : &quot;./work/nar&quot;,
+          &quot;NIFI_CORE_PROCESSOR_SCHEDULING_TIMEOUT&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CORE_TEMPLATES_DIRECTORY&quot; : &quot;./conf/templates&quot;,
+          &quot;NIFI_CORE_UI_AUTOREFRESH_INTERVAL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_UI_BANNER_TEXT&quot; : &quot;&quot;,
+          &quot;NIFI_DATABASE_DIRECTORY&quot; : &quot;database-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_CHECKPOINT_INTERVAL&quot; : &quot;2 mins&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_DIRECTORY&quot; : &quot;flowfile-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.WriteAheadFlowFileRepository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_PARTITIONS&quot; : &quot;256&quot;,
+          &quot;NIFI_H2_URL_APPEND&quot; : &quot;;LOCK_TIMEOUT&amp;#61;25000;WRITE_DELAY&amp;#61;0;AUTO_SERVER&amp;#61;FALSE&quot;,
+          &quot;NIFI_KERBEROS_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_DEFAULT_REALM&quot; : &quot;NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_KRB5_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_PRINCIPAL&quot; : &quot;nifi/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_PRINCIPAL&quot; : &quot;HTTP/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_STRATEGY&quot; : &quot;START_TLS&quot;,
+          &quot;NIFI_LDAP_CONNECT_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_IDENTITY_STRATEGY&quot; : &quot;USE_DN&quot;,
+          &quot;NIFI_LDAP_MANAGER_DN&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_MANAGER_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_READ_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_REFERRAL_STRATEGY&quot; : &quot;FOLLOW&quot;,
+          &quot;NIFI_LDAP_TLS_CLIENT_AUTH&quot; : &quot;REQUIRED&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_TLS_PROTOCOL&quot; : &quot;TLSv1.2&quot;,
+          &quot;NIFI_LDAP_TLS_SHUTDOWN_GRACEFULLY&quot; : &quot;false&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_URL&quot; : &quot;ldap://ldap.example.com:389&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_BASE&quot; : &quot;CN&amp;#61;Users,DC&amp;#61;example,DC&amp;#61;com&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_FILTER&quot; : &quot;sAMAccountName&amp;#61;{0}&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_BUFFER_SIZE&quot; : &quot;100000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_COMPRESS_ON_ROLLOVER&quot; : &quot;true&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_CONCURRENT_MERGE_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DEBUG_FREQUENCY&quot; : &quot;1_000_000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;provenance-repository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_ID&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_IMPLEMENTATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.provenance.PersistentProvenanceRepository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_ATTRIBUTES&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_FIELDS&quot; : &quot;EventType, FlowFileUUID, Filename, ProcessorID, Relationship&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_SHARD_SIZE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_JOURNAL_COUNT&quot; : &quot;16&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_ATTRIBUTE_LENGTH&quot; : &quot;65536&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_SIZE&quot; : &quot;1 GB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_TIME&quot; : &quot;24 hours&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_QUERY_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_TIME&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_WARM_CACHE_FREQUENCY&quot; : &quot;&quot;,
+          &quot;NIFI_QUEUE_SWAP_THRESHOLD&quot; : &quot;20000&quot;,
+          &quot;NIFI_REMOTE_INPUT_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_TRANSACTION_TTL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_REMOTE_INPUT_SECURE&quot; : &quot;false&quot;,
+          &quot;NIFI_REMOTE_INPUT_SOCKET_PORT&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_DN&quot; : &quot;^CN&amp;#61;(.*?), OU&amp;#61;(.*?), O&amp;#61;(.*?), L&amp;#61;(.*?), ST&amp;#61;(.*?), C&amp;#61;(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_KERB&quot; : &quot;^(.*?)/instance@(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_DN&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_KERB&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_KEYPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_NEEDCLIENTAUTH&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_CERTIFICATE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_URL&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_USER_AUTHORIZER&quot; : &quot;file-provider&quot;,
+          &quot;NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ADDITIONAL_KEYS&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ALGORITHM&quot; : &quot;PBEWITHMD5AND256BITAES-CBC-OPENSSL&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY_PROTECTED&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_PROVIDER&quot; : &quot;BC&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_CONFIGURATION_FILE&quot; : &quot;./conf/state-management.xml&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_PROPERTIES&quot; : &quot;./conf/zookeeper.properties&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_START&quot; : &quot;false&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_CLUSTER&quot; : &quot;zk-provider&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_LOCAL&quot; : &quot;local-provider&quot;,
+          &quot;NIFI_SWAP_IN_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_IN_THREADS&quot; : &quot;1&quot;,
+          &quot;NIFI_SWAP_MANAGER_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.FileSystemSwapManager&quot;,
+          &quot;NIFI_SWAP_OUT_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_OUT_THREADS&quot; : &quot;4&quot;,
+          &quot;NIFI_VARIABLE_REGISTRY_PROPERTIES&quot; : &quot;&quot;,
+          &quot;NIFI_VERSION&quot; : &quot;1.5.0&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_BLOCK_SIZE&quot; : &quot;32 KB&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_MAX_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_WEB_HTTPS_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_PORT&quot; : &quot;8443&quot;,
+          &quot;NIFI_WEB_HTTP_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_PORT&quot; : &quot;8080&quot;,
+          &quot;NIFI_WEB_JETTY_THREADS&quot; : &quot;200&quot;,
+          &quot;NIFI_WEB_JETTY_WORKING_DIRECTORY&quot; : &quot;./work/jetty&quot;,
+          &quot;NIFI_WEB_WAR_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_STRING&quot; : &quot;master.mesos:2181&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_TIMEOUT&quot; : &quot;3 secs&quot;,
+          &quot;NIFI_ZOOKEEPER_ROOT_NODE&quot; : &quot;/nifi&quot;,
+          &quot;NIFI_ZOOKEEPER_SESSION_TIMEOUT&quot; : &quot;3 secs&quot;
+        }
+      },
+      &quot;health-check-spec&quot; : null,
+      &quot;readiness-check-spec&quot; : null,
+      &quot;config-files&quot; : [ ],
+      &quot;discovery-spec&quot; : null,
+      &quot;kill-grace-period&quot; : 0,
+      &quot;transport-encryption&quot; : [ ]
+    }, {
+      &quot;name&quot; : &quot;backup&quot;,
+      &quot;goal&quot; : &quot;ONCE&quot;,
+      &quot;essential&quot; : true,
+      &quot;resource-set&quot; : {
+        &quot;id&quot; : &quot;sidecar-resources&quot;,
+        &quot;resource-specifications&quot; : [ {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;cpus&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 0.5
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        }, {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;mem&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 512.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        } ],
+        &quot;volume-specifications&quot; : [ {
+          &quot;@type&quot; : &quot;DefaultVolumeSpec&quot;,
+          &quot;type&quot; : &quot;ROOT&quot;,
+          &quot;container-path&quot; : &quot;nifi-backup&quot;,
+          &quot;name&quot; : &quot;disk&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 500.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        } ],
+        &quot;role&quot; : &quot;nifi-role&quot;,
+        &quot;principal&quot; : &quot;nifi-principal&quot;
+      },
+      &quot;command-spec&quot; : {
+        &quot;value&quot; : &quot;export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jdk*/jre*) ; sh $MESOS_SANDBOX/nifi-toolkit-${NIFI_VERSION}/bin/file-manager.sh -o backup -b nifi-backup -c $MESOS_SANDBOX/../../tasks/nifi-$POD_INSTANCE_INDEX-node*/nifi-1.5.0 -v;\n&quot;,
+        &quot;environment&quot; : {
+          &quot;NIFI_CLUSTER_FIREWALL_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_CANDIDATES&quot; : &quot;3&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_WAIT_TIME&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CLUSTER_IS_NODE&quot; : &quot;true&quot;,
+          &quot;NIFI_CLUSTER_NODE_ADDRESS&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_NODE_CONNECTION_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_NODE_EVENT_HISTORY_SIZE&quot; : &quot;25&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_PORT&quot; : &quot;12000&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_THREADS&quot; : &quot;10&quot;,
+          &quot;NIFI_CLUSTER_NODE_READ_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_PROTOCOL_HEARTBEAT_INTERVAL&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_BUFFER_SIZE&quot; : &quot;1440&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.status.history.VolatileComponentStatusRepository&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_SNAPSHOT_FREQUENCY&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_APPENDABLE_SIZE&quot; : &quot;10 MB&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_FLOW_FILES&quot; : &quot;100&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_RETENTION_PERIOD&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_USAGE_PERCENTAGE&quot; : &quot;50%&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;content-repository&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.FileSystemRepository&quot;,
+          &quot;NIFI_CONTENT_VIEWER_URL&quot; : &quot;/nifi-content-viewer/&quot;,
+          &quot;NIFI_CORE_ADMINISTRATIVE_YIELD_DURATION&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_AUTHORIZER_CONFIGURATION_FILE&quot; : &quot;./conf/authorizers.xml&quot;,
+          &quot;NIFI_CORE_BORED_YIELD_DURATION&quot; : &quot;10 millis&quot;,
+          &quot;NIFI_CORE_DOCUMENTATION_WORKING_DIRECTORY&quot; : &quot;./work/docs/components&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_AUTORESUMESTATE&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_GRACEFUL_SHUTDOWN_PERIOD&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_CORE_FLOWSERVICE_WRITEDELAY_INTERVAL&quot; : &quot;500 ms&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_DIR&quot; : &quot;./conf/archive&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_COUNT&quot; : &quot;&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_STORAGE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_TIME&quot; : &quot;30 days&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_FILE&quot; : &quot;conf/flow.xml.gz&quot;,
+          &quot;NIFI_CORE_LOGIN_IDENTITY_PROVIDER_CONFIGURATION_FILE&quot; : &quot;./conf/login-identity-providers.xml&quot;,
+          &quot;NIFI_CORE_NAR_LIBRARY_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_CORE_NAR_WORKING_DIRECTORY&quot; : &quot;./work/nar&quot;,
+          &quot;NIFI_CORE_PROCESSOR_SCHEDULING_TIMEOUT&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CORE_TEMPLATES_DIRECTORY&quot; : &quot;./conf/templates&quot;,
+          &quot;NIFI_CORE_UI_AUTOREFRESH_INTERVAL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_UI_BANNER_TEXT&quot; : &quot;&quot;,
+          &quot;NIFI_DATABASE_DIRECTORY&quot; : &quot;database-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_CHECKPOINT_INTERVAL&quot; : &quot;2 mins&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_DIRECTORY&quot; : &quot;flowfile-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.WriteAheadFlowFileRepository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_PARTITIONS&quot; : &quot;256&quot;,
+          &quot;NIFI_H2_URL_APPEND&quot; : &quot;;LOCK_TIMEOUT&amp;#61;25000;WRITE_DELAY&amp;#61;0;AUTO_SERVER&amp;#61;FALSE&quot;,
+          &quot;NIFI_KERBEROS_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_DEFAULT_REALM&quot; : &quot;NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_KRB5_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_PRINCIPAL&quot; : &quot;nifi/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_PRINCIPAL&quot; : &quot;HTTP/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_STRATEGY&quot; : &quot;START_TLS&quot;,
+          &quot;NIFI_LDAP_CONNECT_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_IDENTITY_STRATEGY&quot; : &quot;USE_DN&quot;,
+          &quot;NIFI_LDAP_MANAGER_DN&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_MANAGER_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_READ_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_REFERRAL_STRATEGY&quot; : &quot;FOLLOW&quot;,
+          &quot;NIFI_LDAP_TLS_CLIENT_AUTH&quot; : &quot;REQUIRED&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_TLS_PROTOCOL&quot; : &quot;TLSv1.2&quot;,
+          &quot;NIFI_LDAP_TLS_SHUTDOWN_GRACEFULLY&quot; : &quot;false&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_URL&quot; : &quot;ldap://ldap.example.com:389&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_BASE&quot; : &quot;CN&amp;#61;Users,DC&amp;#61;example,DC&amp;#61;com&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_FILTER&quot; : &quot;sAMAccountName&amp;#61;{0}&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_BUFFER_SIZE&quot; : &quot;100000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_COMPRESS_ON_ROLLOVER&quot; : &quot;true&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_CONCURRENT_MERGE_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DEBUG_FREQUENCY&quot; : &quot;1_000_000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;provenance-repository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_ID&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_IMPLEMENTATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.provenance.PersistentProvenanceRepository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_ATTRIBUTES&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_FIELDS&quot; : &quot;EventType, FlowFileUUID, Filename, ProcessorID, Relationship&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_SHARD_SIZE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_JOURNAL_COUNT&quot; : &quot;16&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_ATTRIBUTE_LENGTH&quot; : &quot;65536&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_SIZE&quot; : &quot;1 GB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_TIME&quot; : &quot;24 hours&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_QUERY_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_TIME&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_WARM_CACHE_FREQUENCY&quot; : &quot;&quot;,
+          &quot;NIFI_QUEUE_SWAP_THRESHOLD&quot; : &quot;20000&quot;,
+          &quot;NIFI_REMOTE_INPUT_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_TRANSACTION_TTL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_REMOTE_INPUT_SECURE&quot; : &quot;false&quot;,
+          &quot;NIFI_REMOTE_INPUT_SOCKET_PORT&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_DN&quot; : &quot;^CN&amp;#61;(.*?), OU&amp;#61;(.*?), O&amp;#61;(.*?), L&amp;#61;(.*?), ST&amp;#61;(.*?), C&amp;#61;(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_KERB&quot; : &quot;^(.*?)/instance@(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_DN&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_KERB&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_KEYPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_NEEDCLIENTAUTH&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_CERTIFICATE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_URL&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_USER_AUTHORIZER&quot; : &quot;file-provider&quot;,
+          &quot;NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ADDITIONAL_KEYS&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ALGORITHM&quot; : &quot;PBEWITHMD5AND256BITAES-CBC-OPENSSL&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY_PROTECTED&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_PROVIDER&quot; : &quot;BC&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_CONFIGURATION_FILE&quot; : &quot;./conf/state-management.xml&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_PROPERTIES&quot; : &quot;./conf/zookeeper.properties&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_START&quot; : &quot;false&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_CLUSTER&quot; : &quot;zk-provider&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_LOCAL&quot; : &quot;local-provider&quot;,
+          &quot;NIFI_SWAP_IN_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_IN_THREADS&quot; : &quot;1&quot;,
+          &quot;NIFI_SWAP_MANAGER_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.FileSystemSwapManager&quot;,
+          &quot;NIFI_SWAP_OUT_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_OUT_THREADS&quot; : &quot;4&quot;,
+          &quot;NIFI_VARIABLE_REGISTRY_PROPERTIES&quot; : &quot;&quot;,
+          &quot;NIFI_VERSION&quot; : &quot;1.5.0&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_BLOCK_SIZE&quot; : &quot;32 KB&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_MAX_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_WEB_HTTPS_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_PORT&quot; : &quot;8443&quot;,
+          &quot;NIFI_WEB_HTTP_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_PORT&quot; : &quot;8080&quot;,
+          &quot;NIFI_WEB_JETTY_THREADS&quot; : &quot;200&quot;,
+          &quot;NIFI_WEB_JETTY_WORKING_DIRECTORY&quot; : &quot;./work/jetty&quot;,
+          &quot;NIFI_WEB_WAR_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_STRING&quot; : &quot;master.mesos:2181&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_TIMEOUT&quot; : &quot;3 secs&quot;,
+          &quot;NIFI_ZOOKEEPER_ROOT_NODE&quot; : &quot;/nifi&quot;,
+          &quot;NIFI_ZOOKEEPER_SESSION_TIMEOUT&quot; : &quot;3 secs&quot;
+        }
+      },
+      &quot;health-check-spec&quot; : null,
+      &quot;readiness-check-spec&quot; : null,
+      &quot;config-files&quot; : [ ],
+      &quot;discovery-spec&quot; : null,
+      &quot;kill-grace-period&quot; : 0,
+      &quot;transport-encryption&quot; : [ ]
+    }, {
+      &quot;name&quot; : &quot;upload-s3&quot;,
+      &quot;goal&quot; : &quot;ONCE&quot;,
+      &quot;essential&quot; : true,
+      &quot;resource-set&quot; : {
+        &quot;id&quot; : &quot;sidecar-resources&quot;,
+        &quot;resource-specifications&quot; : [ {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;cpus&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 0.5
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        }, {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;mem&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 512.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        } ],
+        &quot;volume-specifications&quot; : [ {
+          &quot;@type&quot; : &quot;DefaultVolumeSpec&quot;,
+          &quot;type&quot; : &quot;ROOT&quot;,
+          &quot;container-path&quot; : &quot;nifi-backup&quot;,
+          &quot;name&quot; : &quot;disk&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 500.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        } ],
+        &quot;role&quot; : &quot;nifi-role&quot;,
+        &quot;principal&quot; : &quot;nifi-principal&quot;
+      },
+      &quot;command-spec&quot; : {
+        &quot;value&quot; : &quot;export PATH=$MESOS_SANDBOX/python-dist/bin:$PATH ; aws s3 cp nifi-backup s3://${S3_BUCKET_NAME}/nifi-${POD_INSTANCE_INDEX}/ --recursive\n&quot;,
+        &quot;environment&quot; : {
+          &quot;NIFI_CLUSTER_FIREWALL_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_CANDIDATES&quot; : &quot;3&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_WAIT_TIME&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CLUSTER_IS_NODE&quot; : &quot;true&quot;,
+          &quot;NIFI_CLUSTER_NODE_ADDRESS&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_NODE_CONNECTION_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_NODE_EVENT_HISTORY_SIZE&quot; : &quot;25&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_PORT&quot; : &quot;12000&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_THREADS&quot; : &quot;10&quot;,
+          &quot;NIFI_CLUSTER_NODE_READ_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_PROTOCOL_HEARTBEAT_INTERVAL&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_BUFFER_SIZE&quot; : &quot;1440&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.status.history.VolatileComponentStatusRepository&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_SNAPSHOT_FREQUENCY&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_APPENDABLE_SIZE&quot; : &quot;10 MB&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_FLOW_FILES&quot; : &quot;100&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_RETENTION_PERIOD&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_USAGE_PERCENTAGE&quot; : &quot;50%&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;content-repository&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.FileSystemRepository&quot;,
+          &quot;NIFI_CONTENT_VIEWER_URL&quot; : &quot;/nifi-content-viewer/&quot;,
+          &quot;NIFI_CORE_ADMINISTRATIVE_YIELD_DURATION&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_AUTHORIZER_CONFIGURATION_FILE&quot; : &quot;./conf/authorizers.xml&quot;,
+          &quot;NIFI_CORE_BORED_YIELD_DURATION&quot; : &quot;10 millis&quot;,
+          &quot;NIFI_CORE_DOCUMENTATION_WORKING_DIRECTORY&quot; : &quot;./work/docs/components&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_AUTORESUMESTATE&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_GRACEFUL_SHUTDOWN_PERIOD&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_CORE_FLOWSERVICE_WRITEDELAY_INTERVAL&quot; : &quot;500 ms&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_DIR&quot; : &quot;./conf/archive&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_COUNT&quot; : &quot;&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_STORAGE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_TIME&quot; : &quot;30 days&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_FILE&quot; : &quot;conf/flow.xml.gz&quot;,
+          &quot;NIFI_CORE_LOGIN_IDENTITY_PROVIDER_CONFIGURATION_FILE&quot; : &quot;./conf/login-identity-providers.xml&quot;,
+          &quot;NIFI_CORE_NAR_LIBRARY_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_CORE_NAR_WORKING_DIRECTORY&quot; : &quot;./work/nar&quot;,
+          &quot;NIFI_CORE_PROCESSOR_SCHEDULING_TIMEOUT&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CORE_TEMPLATES_DIRECTORY&quot; : &quot;./conf/templates&quot;,
+          &quot;NIFI_CORE_UI_AUTOREFRESH_INTERVAL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_UI_BANNER_TEXT&quot; : &quot;&quot;,
+          &quot;NIFI_DATABASE_DIRECTORY&quot; : &quot;database-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_CHECKPOINT_INTERVAL&quot; : &quot;2 mins&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_DIRECTORY&quot; : &quot;flowfile-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.WriteAheadFlowFileRepository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_PARTITIONS&quot; : &quot;256&quot;,
+          &quot;NIFI_H2_URL_APPEND&quot; : &quot;;LOCK_TIMEOUT&amp;#61;25000;WRITE_DELAY&amp;#61;0;AUTO_SERVER&amp;#61;FALSE&quot;,
+          &quot;NIFI_KERBEROS_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_DEFAULT_REALM&quot; : &quot;NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_KRB5_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_PRINCIPAL&quot; : &quot;nifi/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_PRINCIPAL&quot; : &quot;HTTP/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_STRATEGY&quot; : &quot;START_TLS&quot;,
+          &quot;NIFI_LDAP_CONNECT_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_IDENTITY_STRATEGY&quot; : &quot;USE_DN&quot;,
+          &quot;NIFI_LDAP_MANAGER_DN&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_MANAGER_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_READ_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_REFERRAL_STRATEGY&quot; : &quot;FOLLOW&quot;,
+          &quot;NIFI_LDAP_TLS_CLIENT_AUTH&quot; : &quot;REQUIRED&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_TLS_PROTOCOL&quot; : &quot;TLSv1.2&quot;,
+          &quot;NIFI_LDAP_TLS_SHUTDOWN_GRACEFULLY&quot; : &quot;false&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_URL&quot; : &quot;ldap://ldap.example.com:389&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_BASE&quot; : &quot;CN&amp;#61;Users,DC&amp;#61;example,DC&amp;#61;com&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_FILTER&quot; : &quot;sAMAccountName&amp;#61;{0}&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_BUFFER_SIZE&quot; : &quot;100000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_COMPRESS_ON_ROLLOVER&quot; : &quot;true&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_CONCURRENT_MERGE_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DEBUG_FREQUENCY&quot; : &quot;1_000_000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;provenance-repository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_ID&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_IMPLEMENTATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.provenance.PersistentProvenanceRepository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_ATTRIBUTES&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_FIELDS&quot; : &quot;EventType, FlowFileUUID, Filename, ProcessorID, Relationship&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_SHARD_SIZE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_JOURNAL_COUNT&quot; : &quot;16&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_ATTRIBUTE_LENGTH&quot; : &quot;65536&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_SIZE&quot; : &quot;1 GB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_TIME&quot; : &quot;24 hours&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_QUERY_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_TIME&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_WARM_CACHE_FREQUENCY&quot; : &quot;&quot;,
+          &quot;NIFI_QUEUE_SWAP_THRESHOLD&quot; : &quot;20000&quot;,
+          &quot;NIFI_REMOTE_INPUT_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_TRANSACTION_TTL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_REMOTE_INPUT_SECURE&quot; : &quot;false&quot;,
+          &quot;NIFI_REMOTE_INPUT_SOCKET_PORT&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_DN&quot; : &quot;^CN&amp;#61;(.*?), OU&amp;#61;(.*?), O&amp;#61;(.*?), L&amp;#61;(.*?), ST&amp;#61;(.*?), C&amp;#61;(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_KERB&quot; : &quot;^(.*?)/instance@(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_DN&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_KERB&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_KEYPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_NEEDCLIENTAUTH&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_CERTIFICATE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_URL&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_USER_AUTHORIZER&quot; : &quot;file-provider&quot;,
+          &quot;NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ADDITIONAL_KEYS&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ALGORITHM&quot; : &quot;PBEWITHMD5AND256BITAES-CBC-OPENSSL&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY_PROTECTED&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_PROVIDER&quot; : &quot;BC&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_CONFIGURATION_FILE&quot; : &quot;./conf/state-management.xml&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_PROPERTIES&quot; : &quot;./conf/zookeeper.properties&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_START&quot; : &quot;false&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_CLUSTER&quot; : &quot;zk-provider&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_LOCAL&quot; : &quot;local-provider&quot;,
+          &quot;NIFI_SWAP_IN_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_IN_THREADS&quot; : &quot;1&quot;,
+          &quot;NIFI_SWAP_MANAGER_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.FileSystemSwapManager&quot;,
+          &quot;NIFI_SWAP_OUT_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_OUT_THREADS&quot; : &quot;4&quot;,
+          &quot;NIFI_VARIABLE_REGISTRY_PROPERTIES&quot; : &quot;&quot;,
+          &quot;NIFI_VERSION&quot; : &quot;1.5.0&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_BLOCK_SIZE&quot; : &quot;32 KB&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_MAX_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_WEB_HTTPS_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_PORT&quot; : &quot;8443&quot;,
+          &quot;NIFI_WEB_HTTP_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_PORT&quot; : &quot;8080&quot;,
+          &quot;NIFI_WEB_JETTY_THREADS&quot; : &quot;200&quot;,
+          &quot;NIFI_WEB_JETTY_WORKING_DIRECTORY&quot; : &quot;./work/jetty&quot;,
+          &quot;NIFI_WEB_WAR_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_STRING&quot; : &quot;master.mesos:2181&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_TIMEOUT&quot; : &quot;3 secs&quot;,
+          &quot;NIFI_ZOOKEEPER_ROOT_NODE&quot; : &quot;/nifi&quot;,
+          &quot;NIFI_ZOOKEEPER_SESSION_TIMEOUT&quot; : &quot;3 secs&quot;
+        }
+      },
+      &quot;health-check-spec&quot; : null,
+      &quot;readiness-check-spec&quot; : null,
+      &quot;config-files&quot; : [ ],
+      &quot;discovery-spec&quot; : null,
+      &quot;kill-grace-period&quot; : 0,
+      &quot;transport-encryption&quot; : [ ]
+    }, {
+      &quot;name&quot; : &quot;cleanup-backup&quot;,
+      &quot;goal&quot; : &quot;ONCE&quot;,
+      &quot;essential&quot; : true,
+      &quot;resource-set&quot; : {
+        &quot;id&quot; : &quot;sidecar-resources&quot;,
+        &quot;resource-specifications&quot; : [ {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;cpus&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 0.5
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        }, {
+          &quot;@type&quot; : &quot;DefaultResourceSpec&quot;,
+          &quot;name&quot; : &quot;mem&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 512.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        } ],
+        &quot;volume-specifications&quot; : [ {
+          &quot;@type&quot; : &quot;DefaultVolumeSpec&quot;,
+          &quot;type&quot; : &quot;ROOT&quot;,
+          &quot;container-path&quot; : &quot;nifi-backup&quot;,
+          &quot;name&quot; : &quot;disk&quot;,
+          &quot;value&quot; : {
+            &quot;type&quot; : &quot;SCALAR&quot;,
+            &quot;scalar&quot; : {
+              &quot;value&quot; : 500.0
+            },
+            &quot;ranges&quot; : null,
+            &quot;set&quot; : null,
+            &quot;text&quot; : null
+          },
+          &quot;role&quot; : &quot;nifi-role&quot;,
+          &quot;pre-reserved-role&quot; : &quot;*&quot;,
+          &quot;principal&quot; : &quot;nifi-principal&quot;
+        } ],
+        &quot;role&quot; : &quot;nifi-role&quot;,
+        &quot;principal&quot; : &quot;nifi-principal&quot;
+      },
+      &quot;command-spec&quot; : {
+        &quot;value&quot; : &quot;export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jdk*/jre/) ; rm -r nifi-backup/*\n&quot;,
+        &quot;environment&quot; : {
+          &quot;NIFI_CLUSTER_FIREWALL_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_CANDIDATES&quot; : &quot;3&quot;,
+          &quot;NIFI_CLUSTER_FLOW_ELECTION_MAX_WAIT_TIME&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CLUSTER_IS_NODE&quot; : &quot;true&quot;,
+          &quot;NIFI_CLUSTER_NODE_ADDRESS&quot; : &quot;&quot;,
+          &quot;NIFI_CLUSTER_NODE_CONNECTION_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_NODE_EVENT_HISTORY_SIZE&quot; : &quot;25&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_PORT&quot; : &quot;12000&quot;,
+          &quot;NIFI_CLUSTER_NODE_PROTOCOL_THREADS&quot; : &quot;10&quot;,
+          &quot;NIFI_CLUSTER_NODE_READ_TIMEOUT&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_CLUSTER_PROTOCOL_HEARTBEAT_INTERVAL&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_BUFFER_SIZE&quot; : &quot;1440&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.status.history.VolatileComponentStatusRepository&quot;,
+          &quot;NIFI_COMPONENTS_STATUS_SNAPSHOT_FREQUENCY&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_APPENDABLE_SIZE&quot; : &quot;10 MB&quot;,
+          &quot;NIFI_CONTENT_CLAIM_MAX_FLOW_FILES&quot; : &quot;100&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_RETENTION_PERIOD&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_ARCHIVE_MAX_USAGE_PERCENTAGE&quot; : &quot;50%&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;content-repository&quot;,
+          &quot;NIFI_CONTENT_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.FileSystemRepository&quot;,
+          &quot;NIFI_CONTENT_VIEWER_URL&quot; : &quot;/nifi-content-viewer/&quot;,
+          &quot;NIFI_CORE_ADMINISTRATIVE_YIELD_DURATION&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_AUTHORIZER_CONFIGURATION_FILE&quot; : &quot;./conf/authorizers.xml&quot;,
+          &quot;NIFI_CORE_BORED_YIELD_DURATION&quot; : &quot;10 millis&quot;,
+          &quot;NIFI_CORE_DOCUMENTATION_WORKING_DIRECTORY&quot; : &quot;./work/docs/components&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_AUTORESUMESTATE&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOWCONTROLLER_GRACEFUL_SHUTDOWN_PERIOD&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_CORE_FLOWSERVICE_WRITEDELAY_INTERVAL&quot; : &quot;500 ms&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_DIR&quot; : &quot;./conf/archive&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_COUNT&quot; : &quot;&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_STORAGE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_ARCHIVE_MAX_TIME&quot; : &quot;30 days&quot;,
+          &quot;NIFI_CORE_FLOW_CONFIGURATION_FILE&quot; : &quot;conf/flow.xml.gz&quot;,
+          &quot;NIFI_CORE_LOGIN_IDENTITY_PROVIDER_CONFIGURATION_FILE&quot; : &quot;./conf/login-identity-providers.xml&quot;,
+          &quot;NIFI_CORE_NAR_LIBRARY_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_CORE_NAR_WORKING_DIRECTORY&quot; : &quot;./work/nar&quot;,
+          &quot;NIFI_CORE_PROCESSOR_SCHEDULING_TIMEOUT&quot; : &quot;1 mins&quot;,
+          &quot;NIFI_CORE_TEMPLATES_DIRECTORY&quot; : &quot;./conf/templates&quot;,
+          &quot;NIFI_CORE_UI_AUTOREFRESH_INTERVAL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_CORE_UI_BANNER_TEXT&quot; : &quot;&quot;,
+          &quot;NIFI_DATABASE_DIRECTORY&quot; : &quot;database-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_CHECKPOINT_INTERVAL&quot; : &quot;2 mins&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_DIRECTORY&quot; : &quot;flowfile-repository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.repository.WriteAheadFlowFileRepository&quot;,
+          &quot;NIFI_FLOWFILE_REPOSITORY_PARTITIONS&quot; : &quot;256&quot;,
+          &quot;NIFI_H2_URL_APPEND&quot; : &quot;;LOCK_TIMEOUT&amp;#61;25000;WRITE_DELAY&amp;#61;0;AUTO_SERVER&amp;#61;FALSE&quot;,
+          &quot;NIFI_KERBEROS_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_DEFAULT_REALM&quot; : &quot;NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_KRB5_FILE&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SERVICE_PRINCIPAL&quot; : &quot;nifi/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_KEYTAB_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_KERBEROS_SPNEGO_PRINCIPAL&quot; : &quot;HTTP/nifi.example.com@NIFI.APACHE.ORG&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_EXPIRATION&quot; : &quot;12 hours&quot;,
+          &quot;NIFI_LDAP_AUTHENTICATION_STRATEGY&quot; : &quot;START_TLS&quot;,
+          &quot;NIFI_LDAP_CONNECT_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_IDENTITY_STRATEGY&quot; : &quot;USE_DN&quot;,
+          &quot;NIFI_LDAP_MANAGER_DN&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_MANAGER_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_READ_TIMEOUT&quot; : &quot;10 secs&quot;,
+          &quot;NIFI_LDAP_REFERRAL_STRATEGY&quot; : &quot;FOLLOW&quot;,
+          &quot;NIFI_LDAP_TLS_CLIENT_AUTH&quot; : &quot;REQUIRED&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_KEYSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_TLS_PROTOCOL&quot; : &quot;TLSv1.2&quot;,
+          &quot;NIFI_LDAP_TLS_SHUTDOWN_GRACEFULLY&quot; : &quot;false&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PASSWORD&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_PATH&quot; : &quot;&quot;,
+          &quot;NIFI_LDAP_TLS_TRUSTSTORE_TYPE&quot; : &quot;PKCS12&quot;,
+          &quot;NIFI_LDAP_URL&quot; : &quot;ldap://ldap.example.com:389&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_BASE&quot; : &quot;CN&amp;#61;Users,DC&amp;#61;example,DC&amp;#61;com&quot;,
+          &quot;NIFI_LDAP_USER_SEARCH_FILTER&quot; : &quot;sAMAccountName&amp;#61;{0}&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ALWAYS_SYNC&quot; : &quot;false&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_BUFFER_SIZE&quot; : &quot;100000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_COMPRESS_ON_ROLLOVER&quot; : &quot;true&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_CONCURRENT_MERGE_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DEBUG_FREQUENCY&quot; : &quot;1_000_000&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_DIRECTORY_DEFAULT&quot; : &quot;provenance-repository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_ID&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_IMPLEMENTATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ENCRYPTION_KEY_PROVIDER_LOCATION&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_IMPLEMENTATION&quot; : &quot;org.apache.nifi.provenance.PersistentProvenanceRepository&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_ATTRIBUTES&quot; : &quot;&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEXED_FIELDS&quot; : &quot;EventType, FlowFileUUID, Filename, ProcessorID, Relationship&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_SHARD_SIZE&quot; : &quot;500 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_INDEX_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_JOURNAL_COUNT&quot; : &quot;16&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_ATTRIBUTE_LENGTH&quot; : &quot;65536&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_SIZE&quot; : &quot;1 GB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_MAX_STORAGE_TIME&quot; : &quot;24 hours&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_QUERY_THREADS&quot; : &quot;2&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_ROLLOVER_TIME&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_PROVENANCE_REPOSITORY_WARM_CACHE_FREQUENCY&quot; : &quot;&quot;,
+          &quot;NIFI_QUEUE_SWAP_THRESHOLD&quot; : &quot;20000&quot;,
+          &quot;NIFI_REMOTE_INPUT_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_ENABLED&quot; : &quot;true&quot;,
+          &quot;NIFI_REMOTE_INPUT_HTTP_TRANSACTION_TTL&quot; : &quot;30 secs&quot;,
+          &quot;NIFI_REMOTE_INPUT_SECURE&quot; : &quot;false&quot;,
+          &quot;NIFI_REMOTE_INPUT_SOCKET_PORT&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_DN&quot; : &quot;^CN&amp;#61;(.*?), OU&amp;#61;(.*?), O&amp;#61;(.*?), L&amp;#61;(.*?), ST&amp;#61;(.*?), C&amp;#61;(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_PATTERN_KERB&quot; : &quot;^(.*?)/instance@(.*?)$&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_DN&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_IDENTITY_MAPPING_VALUE_KERB&quot; : &quot;$1@$2&quot;,
+          &quot;NIFI_SECURITY_KEYPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_KEYSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_NEEDCLIENTAUTH&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_CERTIFICATE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_OCSP_RESPONDER_URL&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTOREPASSWD&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_TRUSTSTORETYPE&quot; : &quot;&quot;,
+          &quot;NIFI_SECURITY_USER_AUTHORIZER&quot; : &quot;file-provider&quot;,
+          &quot;NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ADDITIONAL_KEYS&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_ALGORITHM&quot; : &quot;PBEWITHMD5AND256BITAES-CBC-OPENSSL&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_KEY_PROTECTED&quot; : &quot;&quot;,
+          &quot;NIFI_SENSITIVE_PROPS_PROVIDER&quot; : &quot;BC&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_CONFIGURATION_FILE&quot; : &quot;./conf/state-management.xml&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_PROPERTIES&quot; : &quot;./conf/zookeeper.properties&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_EMBEDDED_ZOOKEEPER_START&quot; : &quot;false&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_CLUSTER&quot; : &quot;zk-provider&quot;,
+          &quot;NIFI_STATE_MANAGEMENT_PROVIDER_LOCAL&quot; : &quot;local-provider&quot;,
+          &quot;NIFI_SWAP_IN_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_IN_THREADS&quot; : &quot;1&quot;,
+          &quot;NIFI_SWAP_MANAGER_IMPLEMENTATION&quot; : &quot;org.apache.nifi.controller.FileSystemSwapManager&quot;,
+          &quot;NIFI_SWAP_OUT_PERIOD&quot; : &quot;5 secs&quot;,
+          &quot;NIFI_SWAP_OUT_THREADS&quot; : &quot;4&quot;,
+          &quot;NIFI_VARIABLE_REGISTRY_PROPERTIES&quot; : &quot;&quot;,
+          &quot;NIFI_VERSION&quot; : &quot;1.5.0&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_BLOCK_SIZE&quot; : &quot;32 KB&quot;,
+          &quot;NIFI_VOLATILE_CONTENT_REPOSITORY_MAX_SIZE&quot; : &quot;100 MB&quot;,
+          &quot;NIFI_WEB_HTTPS_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTPS_PORT&quot; : &quot;8443&quot;,
+          &quot;NIFI_WEB_HTTP_HOST&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_NETWORK_INTERFACE_DEFAULT&quot; : &quot;&quot;,
+          &quot;NIFI_WEB_HTTP_PORT&quot; : &quot;8080&quot;,
+          &quot;NIFI_WEB_JETTY_THREADS&quot; : &quot;200&quot;,
+          &quot;NIFI_WEB_JETTY_WORKING_DIRECTORY&quot; : &quot;./work/jetty&quot;,
+          &quot;NIFI_WEB_WAR_DIRECTORY&quot; : &quot;./lib&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_STRING&quot; : &quot;master.mesos:2181&quot;,
+          &quot;NIFI_ZOOKEEPER_CONNECT_TIMEOUT&quot; : &quot;3 secs&quot;,
+          &quot;NIFI_ZOOKEEPER_ROOT_NODE&quot; : &quot;/nifi&quot;,
+          &quot;NIFI_ZOOKEEPER_SESSION_TIMEOUT&quot; : &quot;3 secs&quot;
+        }
+      },
+      &quot;health-check-spec&quot; : null,
+      &quot;readiness-check-spec&quot; : null,
+      &quot;config-files&quot; : [ ],
+      &quot;discovery-spec&quot; : null,
+      &quot;kill-grace-period&quot; : 0,
+      &quot;transport-encryption&quot; : [ ]
+    } ],
+    &quot;placement-rule&quot; : {
+      &quot;@type&quot; : &quot;AndRule&quot;,
+      &quot;rules&quot; : [ {
+        &quot;@type&quot; : &quot;IsLocalRegionRule&quot;
+      }, {
+        &quot;@type&quot; : &quot;MaxPerHostnameRule&quot;,
+        &quot;max&quot; : 1,
+        &quot;task-filter&quot; : {
+          &quot;@type&quot; : &quot;RegexMatcher&quot;,
+          &quot;pattern&quot; : &quot;nifi-.*&quot;
+        }
+      } ]
+    },
+    &quot;volumes&quot; : [ ],
+    &quot;pre-reserved-role&quot; : &quot;*&quot;,
+    &quot;secrets&quot; : [ ],
+    &quot;share-pid-namespace&quot; : false,
+    &quot;allow-decommission&quot; : false
+  } ],
+  &quot;replacement-failure-policy&quot; : null,
+  &quot;user&quot; : &quot;nobody&quot;
+}
+INFO  2018-03-26 09:12:02,248 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:updateConfiguration(88): Skipping config diff: There is no old config target to diff against
+INFO  2018-03-26 09:12:02,298 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:updateConfiguration(126): Updating target configuration: Prior target configuration 'null' is different from new configuration '3e3a3f4c-73d5-42ce-a07a-fd3158effd07'. 
+INFO  2018-03-26 09:12:02,300 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:cleanupDuplicateAndUnusedConfigs(230): Testing deserialization of 1 listed configurations before cleanup:
+INFO  2018-03-26 09:12:02,302 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:cleanupDuplicateAndUnusedConfigs(234): - 3e3a3f4c-73d5-42ce-a07a-fd3158effd07: OK
+INFO  2018-03-26 09:12:02,303 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:clearConfigsNotListed(363): Cleaning up 0 unused configs: []
+INFO  2018-03-26 09:12:02,322 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [node]
+WARN  2018-03-26 09:12:02,335 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-node at: Tasks/nifi-0-node/TaskInfo
+INFO  2018-03-26 09:12:02,348 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,349 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,353 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [metrics]
+WARN  2018-03-26 09:12:02,354 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-metrics at: Tasks/nifi-0-metrics/TaskInfo
+INFO  2018-03-26 09:12:02,355 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,355 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,356 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [node]
+WARN  2018-03-26 09:12:02,356 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-node at: Tasks/nifi-1-node/TaskInfo
+INFO  2018-03-26 09:12:02,357 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,358 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,358 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [metrics]
+WARN  2018-03-26 09:12:02,361 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-metrics at: Tasks/nifi-1-metrics/TaskInfo
+INFO  2018-03-26 09:12:02,365 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,365 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,368 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [restart-cleanup]
+WARN  2018-03-26 09:12:02,370 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-restart-cleanup at: Tasks/nifi-0-restart-cleanup/TaskInfo
+INFO  2018-03-26 09:12:02,371 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,376 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,377 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [restart-cleanup]
+WARN  2018-03-26 09:12:02,377 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-restart-cleanup at: Tasks/nifi-1-restart-cleanup/TaskInfo
+INFO  2018-03-26 09:12:02,378 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,378 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,379 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [backup]
+WARN  2018-03-26 09:12:02,381 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-backup at: Tasks/nifi-0-backup/TaskInfo
+INFO  2018-03-26 09:12:02,381 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,382 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,382 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [backup]
+WARN  2018-03-26 09:12:02,383 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-backup at: Tasks/nifi-1-backup/TaskInfo
+INFO  2018-03-26 09:12:02,385 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,385 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,387 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [upload-s3]
+WARN  2018-03-26 09:12:02,388 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-upload-s3 at: Tasks/nifi-0-upload-s3/TaskInfo
+INFO  2018-03-26 09:12:02,389 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,389 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,390 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [upload-s3]
+WARN  2018-03-26 09:12:02,392 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-upload-s3 at: Tasks/nifi-1-upload-s3/TaskInfo
+INFO  2018-03-26 09:12:02,393 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,393 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,394 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [cleanup-backup]
+WARN  2018-03-26 09:12:02,395 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-cleanup-backup at: Tasks/nifi-0-cleanup-backup/TaskInfo
+INFO  2018-03-26 09:12:02,397 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,398 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,398 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [cleanup-backup]
+WARN  2018-03-26 09:12:02,399 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-cleanup-backup at: Tasks/nifi-1-cleanup-backup/TaskInfo
+INFO  2018-03-26 09:12:02,399 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,399 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,404 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [node]
+WARN  2018-03-26 09:12:02,405 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-node at: Tasks/nifi-0-node/TaskInfo
+INFO  2018-03-26 09:12:02,406 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,406 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,407 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [metrics]
+WARN  2018-03-26 09:12:02,408 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-metrics at: Tasks/nifi-0-metrics/TaskInfo
+INFO  2018-03-26 09:12:02,408 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,409 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,409 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [node]
+WARN  2018-03-26 09:12:02,418 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-node at: Tasks/nifi-1-node/TaskInfo
+INFO  2018-03-26 09:12:02,418 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,419 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,419 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [metrics]
+WARN  2018-03-26 09:12:02,422 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-metrics at: Tasks/nifi-1-metrics/TaskInfo
+INFO  2018-03-26 09:12:02,422 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,428 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 09:12:02,428 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:getPlans(385): Got 3 YAML plans: [replace, backup-s3, deploy]
+INFO  2018-03-26 09:12:02,429 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:selectDeployPlan(434): Using regular deploy plan. (Has completed deployment: false, Custom update plan defined: false)
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 3.4.1</a> at Mar 26, 2018 9:12:02 AM</p>
+</div>
+</div>
+</body>
+</html>
