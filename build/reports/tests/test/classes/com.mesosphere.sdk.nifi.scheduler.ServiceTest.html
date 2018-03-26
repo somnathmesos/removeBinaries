@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">5.952s</div>
+<div class="counter">5.783s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,7 +79,7 @@
 </thead>
 <tr>
 <td class="success">testSpec</td>
-<td>5.952s</td>
+<td>5.783s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -87,7 +87,7 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>INFO  2018-03-26 09:11:57,985 [Test worker] com.mesosphere.sdk.specification.yaml.RawServiceSpec$Builder:build(70): Rendered ServiceSpec from /fw-wrkspc/metricsfix/dcos-nifi/src/main/dist/svc.yml:
+<pre>INFO  2018-03-26 10:47:45,595 [Test worker] com.mesosphere.sdk.specification.yaml.RawServiceSpec$Builder:build(70): Rendered ServiceSpec from /fw-wrkspc/metricsfix/removeBinaries/src/main/dist/svc.yml:
 Missing template values: []
 name: nifi
 scheduler:
@@ -294,11 +294,11 @@ plans:
         steps:
           - default: [[cleanup-backup]]
 
-INFO  2018-03-26 09:11:58,536 [Test worker] org.hibernate.validator.internal.util.Version:&lt;clinit&gt;(30): HV000001: Hibernate Validator 5.3.2.Final
-INFO  2018-03-26 09:12:00,359 [Test worker] com.mesosphere.sdk.offer.evaluate.placement.MarathonConstraintParser:parseRow(106): Marathon-style row '[hostname, UNIQUE]' resulted in placement rule: 'MaxPerHostnameRule{max=1, task-filter=RegexMatcher{pattern='nifi-.*'}}'
-INFO  2018-03-26 09:12:01,737 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:getDefaultScheduler(265): Unable to retrieve last configuration. Assuming that no prior deployment has completed
-INFO  2018-03-26 09:12:01,980 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:updateConfig(472): Updating config with 10 validators...
-INFO  2018-03-26 09:12:02,004 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:updateConfiguration(78): New prospective config:
+INFO  2018-03-26 10:47:46,068 [Test worker] org.hibernate.validator.internal.util.Version:&lt;clinit&gt;(30): HV000001: Hibernate Validator 5.3.2.Final
+INFO  2018-03-26 10:47:47,837 [Test worker] com.mesosphere.sdk.offer.evaluate.placement.MarathonConstraintParser:parseRow(106): Marathon-style row '[hostname, UNIQUE]' resulted in placement rule: 'MaxPerHostnameRule{max=1, task-filter=RegexMatcher{pattern='nifi-.*'}}'
+INFO  2018-03-26 10:47:49,156 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:getDefaultScheduler(265): Unable to retrieve last configuration. Assuming that no prior deployment has completed
+INFO  2018-03-26 10:47:49,396 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:updateConfig(472): Updating config with 10 validators...
+INFO  2018-03-26 10:47:49,420 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:updateConfiguration(78): New prospective config:
 {
   &quot;name&quot; : &quot;nifi&quot;,
   &quot;role&quot; : &quot;nifi-role&quot;,
@@ -1780,77 +1780,77 @@ INFO  2018-03-26 09:12:02,004 [Test worker] com.mesosphere.sdk.config.DefaultCon
   &quot;replacement-failure-policy&quot; : null,
   &quot;user&quot; : &quot;nobody&quot;
 }
-INFO  2018-03-26 09:12:02,248 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:updateConfiguration(88): Skipping config diff: There is no old config target to diff against
-INFO  2018-03-26 09:12:02,298 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:updateConfiguration(126): Updating target configuration: Prior target configuration 'null' is different from new configuration '3e3a3f4c-73d5-42ce-a07a-fd3158effd07'. 
-INFO  2018-03-26 09:12:02,300 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:cleanupDuplicateAndUnusedConfigs(230): Testing deserialization of 1 listed configurations before cleanup:
-INFO  2018-03-26 09:12:02,302 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:cleanupDuplicateAndUnusedConfigs(234): - 3e3a3f4c-73d5-42ce-a07a-fd3158effd07: OK
-INFO  2018-03-26 09:12:02,303 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:clearConfigsNotListed(363): Cleaning up 0 unused configs: []
-INFO  2018-03-26 09:12:02,322 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [node]
-WARN  2018-03-26 09:12:02,335 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-node at: Tasks/nifi-0-node/TaskInfo
-INFO  2018-03-26 09:12:02,348 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,349 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,353 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [metrics]
-WARN  2018-03-26 09:12:02,354 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-metrics at: Tasks/nifi-0-metrics/TaskInfo
-INFO  2018-03-26 09:12:02,355 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,355 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,356 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [node]
-WARN  2018-03-26 09:12:02,356 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-node at: Tasks/nifi-1-node/TaskInfo
-INFO  2018-03-26 09:12:02,357 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,358 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,358 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [metrics]
-WARN  2018-03-26 09:12:02,361 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-metrics at: Tasks/nifi-1-metrics/TaskInfo
-INFO  2018-03-26 09:12:02,365 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,365 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,368 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [restart-cleanup]
-WARN  2018-03-26 09:12:02,370 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-restart-cleanup at: Tasks/nifi-0-restart-cleanup/TaskInfo
-INFO  2018-03-26 09:12:02,371 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,376 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,377 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [restart-cleanup]
-WARN  2018-03-26 09:12:02,377 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-restart-cleanup at: Tasks/nifi-1-restart-cleanup/TaskInfo
-INFO  2018-03-26 09:12:02,378 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,378 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,379 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [backup]
-WARN  2018-03-26 09:12:02,381 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-backup at: Tasks/nifi-0-backup/TaskInfo
-INFO  2018-03-26 09:12:02,381 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,382 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,382 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [backup]
-WARN  2018-03-26 09:12:02,383 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-backup at: Tasks/nifi-1-backup/TaskInfo
-INFO  2018-03-26 09:12:02,385 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,385 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,387 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [upload-s3]
-WARN  2018-03-26 09:12:02,388 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-upload-s3 at: Tasks/nifi-0-upload-s3/TaskInfo
-INFO  2018-03-26 09:12:02,389 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,389 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,390 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [upload-s3]
-WARN  2018-03-26 09:12:02,392 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-upload-s3 at: Tasks/nifi-1-upload-s3/TaskInfo
-INFO  2018-03-26 09:12:02,393 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,393 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,394 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [cleanup-backup]
-WARN  2018-03-26 09:12:02,395 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-cleanup-backup at: Tasks/nifi-0-cleanup-backup/TaskInfo
-INFO  2018-03-26 09:12:02,397 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,398 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,398 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [cleanup-backup]
-WARN  2018-03-26 09:12:02,399 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-cleanup-backup at: Tasks/nifi-1-cleanup-backup/TaskInfo
-INFO  2018-03-26 09:12:02,399 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,399 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,404 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [node]
-WARN  2018-03-26 09:12:02,405 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-node at: Tasks/nifi-0-node/TaskInfo
-INFO  2018-03-26 09:12:02,406 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,406 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,407 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [metrics]
-WARN  2018-03-26 09:12:02,408 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-metrics at: Tasks/nifi-0-metrics/TaskInfo
-INFO  2018-03-26 09:12:02,408 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,409 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,409 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [node]
-WARN  2018-03-26 09:12:02,418 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-node at: Tasks/nifi-1-node/TaskInfo
-INFO  2018-03-26 09:12:02,418 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,419 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,419 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [metrics]
-WARN  2018-03-26 09:12:02,422 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-metrics at: Tasks/nifi-1-metrics/TaskInfo
-INFO  2018-03-26 09:12:02,422 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,428 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
-INFO  2018-03-26 09:12:02,428 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:getPlans(385): Got 3 YAML plans: [replace, backup-s3, deploy]
-INFO  2018-03-26 09:12:02,429 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:selectDeployPlan(434): Using regular deploy plan. (Has completed deployment: false, Custom update plan defined: false)
+INFO  2018-03-26 10:47:49,595 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:updateConfiguration(88): Skipping config diff: There is no old config target to diff against
+INFO  2018-03-26 10:47:49,634 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:updateConfiguration(126): Updating target configuration: Prior target configuration 'null' is different from new configuration '195fd4dc-085c-46da-a430-c3337d3436c5'. 
+INFO  2018-03-26 10:47:49,637 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:cleanupDuplicateAndUnusedConfigs(230): Testing deserialization of 1 listed configurations before cleanup:
+INFO  2018-03-26 10:47:49,637 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:cleanupDuplicateAndUnusedConfigs(234): - 195fd4dc-085c-46da-a430-c3337d3436c5: OK
+INFO  2018-03-26 10:47:49,638 [Test worker] com.mesosphere.sdk.config.DefaultConfigurationUpdater:clearConfigsNotListed(363): Cleaning up 0 unused configs: []
+INFO  2018-03-26 10:47:49,664 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [node]
+WARN  2018-03-26 10:47:49,680 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-node at: Tasks/nifi-0-node/TaskInfo
+INFO  2018-03-26 10:47:49,701 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,705 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,705 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [metrics]
+WARN  2018-03-26 10:47:49,706 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-metrics at: Tasks/nifi-0-metrics/TaskInfo
+INFO  2018-03-26 10:47:49,707 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,707 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,708 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [node]
+WARN  2018-03-26 10:47:49,709 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-node at: Tasks/nifi-1-node/TaskInfo
+INFO  2018-03-26 10:47:49,717 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,718 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,718 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [metrics]
+WARN  2018-03-26 10:47:49,721 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-metrics at: Tasks/nifi-1-metrics/TaskInfo
+INFO  2018-03-26 10:47:49,721 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,722 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,730 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [restart-cleanup]
+WARN  2018-03-26 10:47:49,733 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-restart-cleanup at: Tasks/nifi-0-restart-cleanup/TaskInfo
+INFO  2018-03-26 10:47:49,733 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,734 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,734 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [restart-cleanup]
+WARN  2018-03-26 10:47:49,737 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-restart-cleanup at: Tasks/nifi-1-restart-cleanup/TaskInfo
+INFO  2018-03-26 10:47:49,737 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,738 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[restart-cleanup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,739 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [backup]
+WARN  2018-03-26 10:47:49,746 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-backup at: Tasks/nifi-0-backup/TaskInfo
+INFO  2018-03-26 10:47:49,747 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,747 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,748 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [backup]
+WARN  2018-03-26 10:47:49,749 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-backup at: Tasks/nifi-1-backup/TaskInfo
+INFO  2018-03-26 10:47:49,749 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,753 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,754 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [upload-s3]
+WARN  2018-03-26 10:47:49,757 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-upload-s3 at: Tasks/nifi-0-upload-s3/TaskInfo
+INFO  2018-03-26 10:47:49,757 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,758 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,758 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [upload-s3]
+WARN  2018-03-26 10:47:49,759 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-upload-s3 at: Tasks/nifi-1-upload-s3/TaskInfo
+INFO  2018-03-26 10:47:49,759 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,759 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[upload-s3]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,760 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [cleanup-backup]
+WARN  2018-03-26 10:47:49,761 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-cleanup-backup at: Tasks/nifi-0-cleanup-backup/TaskInfo
+INFO  2018-03-26 10:47:49,767 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,768 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,768 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [cleanup-backup]
+WARN  2018-03-26 10:47:49,769 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-cleanup-backup at: Tasks/nifi-1-cleanup-backup/TaskInfo
+INFO  2018-03-26 10:47:49,769 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,769 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[cleanup-backup]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,774 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [node]
+WARN  2018-03-26 10:47:49,776 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-node at: Tasks/nifi-0-node/TaskInfo
+INFO  2018-03-26 10:47:49,776 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,776 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,777 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-0, with tasks: [metrics]
+WARN  2018-03-26 10:47:49,778 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-0-metrics at: Tasks/nifi-0-metrics/TaskInfo
+INFO  2018-03-26 10:47:49,778 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,778 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-0:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,779 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [node]
+WARN  2018-03-26 10:47:49,782 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-node at: Tasks/nifi-1-node/TaskInfo
+INFO  2018-03-26 10:47:49,784 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,784 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[node]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,784 [Test worker] com.mesosphere.sdk.scheduler.plan.DefaultStepFactory:getStep(42): Generating step for pod: nifi-1, with tasks: [metrics]
+WARN  2018-03-26 10:47:49,787 [Test worker] com.mesosphere.sdk.state.StateStore:fetchTask(294): No TaskInfo found for the requested name: nifi-1-metrics at: Tasks/nifi-1-metrics/TaskInfo
+INFO  2018-03-26 10:47:49,790 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,790 [Test worker] com.mesosphere.sdk.scheduler.plan.DeploymentStep:setStatus(65): nifi-1:[metrics]: changed status from: PENDING to: PENDING (interrupted=false)
+INFO  2018-03-26 10:47:49,791 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:getPlans(385): Got 3 YAML plans: [replace, backup-s3, deploy]
+INFO  2018-03-26 10:47:49,791 [Test worker] com.mesosphere.sdk.scheduler.SchedulerBuilder:selectDeployPlan(434): Using regular deploy plan. (Has completed deployment: false, Custom update plan defined: false)
 </pre>
 </span>
 </div>
@@ -1862,7 +1862,7 @@ INFO  2018-03-26 09:12:02,429 [Test worker] com.mesosphere.sdk.scheduler.Schedul
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 3.4.1</a> at Mar 26, 2018 9:12:02 AM</p>
+<a href="http://www.gradle.org">Gradle 3.4.1</a> at Mar 26, 2018 10:47:49 AM</p>
 </div>
 </div>
 </body>
